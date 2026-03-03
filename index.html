@@ -2,9 +2,11 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Академия Python | Для подростков</title>
+    <!-- Важно: сохраняем настройки viewport для правильного масштабирования -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Академия Python | Мобильная версия</title>
     <style>
+        /* Базовый сброс и шрифты */
         * {
             margin: 0;
             padding: 0;
@@ -12,117 +14,161 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: linear-gradient(145deg, #5a67d8 0%, #6b46c1 100%);
+            color: #1a202c;
+            line-height: 1.5;
+            min-height: 100vh;
         }
 
-        /* Шапка */
+        /* Шапка — компактная, фиксированная */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 0.5rem 0;
+            position: sticky;
             top: 0;
             z-index: 1000;
         }
 
         .header-content {
-            max-width: 1200px;
+            max-width: 600px;  /* ограничиваем для очень широких мобильных */
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            color: #667eea;
+            color: #5a67d8;
+            letter-spacing: -0.02em;
         }
 
         nav a {
-            color: #333;
+            color: #2d3748;
             text-decoration: none;
-            margin-left: 2rem;
-            font-weight: 500;
-            transition: color 0.3s;
+            margin-left: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
         }
 
         nav a:hover {
-            color: #667eea;
+            color: #5a67d8;
         }
 
-        /* Основной контент */
+        /* Основной контейнер — без огромных отступов */
         main {
-            max-width: 1200px;
-            margin: 100px auto 40px;
-            padding: 0 20px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            padding: 8px 12px 20px;
         }
 
-        /* Карточки уроков */
+        /* Герой (приветствие) — компактнее */
+        #hero {
+            text-align: center;
+            color: white;
+            padding: 24px 0 16px;
+        }
+
+        #hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        #hero p {
+            font-size: 1rem;
+            max-width: 480px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        /* Заголовок секции уроков */
+        #lessons h2 {
+            color: white;
+            font-size: 1.9rem;
+            margin: 24px 0 20px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        /* Сетка карточек: одна колонка, уже не auto-fit */
         .lesson-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 8px;
         }
 
+        /* Карточка урока — более компактная, без лишних отступов */
         .lesson-card {
             background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 24px;
+            padding: 20px 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.15s, box-shadow 0.2s;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .lesson-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        .lesson-card:active {
+            transform: scale(0.99);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .lesson-number {
-            font-size: 3rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            color: #667eea;
-            opacity: 0.3;
+            color: #5a67d8;
+            opacity: 0.25;
             line-height: 1;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
         }
 
         .lesson-title {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #333;
+            font-size: 1.35rem;
+            margin-bottom: 8px;
+            color: #1a202c;
+            font-weight: 700;
         }
 
         .lesson-description {
-            color: #666;
-            margin-bottom: 20px;
+            color: #4a5568;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
         }
 
+        /* Кнопка — адаптивная, легко нажимать пальцем */
         .btn {
             display: inline-block;
-            background: #667eea;
+            background: #5a67d8;
             color: white;
-            padding: 10px 25px;
-            border-radius: 50px;
+            padding: 10px 20px;
+            border-radius: 40px;
             text-decoration: none;
             font-weight: 600;
-            transition: background 0.3s;
+            transition: background 0.2s;
             border: none;
             cursor: pointer;
             font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(90, 103, 216, 0.3);
+            width: 100%;
+            text-align: center;
+            min-height: 44px; /* для удобного тапа */
+            line-height: 1.3;
         }
 
         .btn:hover {
-            background: #5a67d8;
+            background: #4c51bf;
         }
 
-        /* Модальное окно */
+        /* МОДАЛКА — полностью переработана для мобильных */
         .modal {
             display: none;
             position: fixed;
@@ -130,99 +176,185 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             z-index: 2000;
             overflow-y: auto;
+            padding: 8px;
+            backdrop-filter: blur(3px);
         }
 
         .modal-content {
             background: white;
-            max-width: 800px;
-            margin: 50px auto;
-            border-radius: 20px;
-            padding: 40px;
+            max-width: 560px;
+            margin: 20px auto 30px;
+            border-radius: 28px;
+            padding: 24px 20px 30px;
             position: relative;
-            animation: slideIn 0.3s ease-out;
+            animation: slideUp 0.25s ease;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .close {
             position: absolute;
-            right: 30px;
-            top: 20px;
+            right: 20px;
+            top: 16px;
             font-size: 2rem;
             cursor: pointer;
-            color: #999;
-            transition: color 0.3s;
+            color: #a0aec0;
+            transition: color 0.2s;
+            line-height: 1;
+            background: #edf2f7;
+            width: 40px;
+            height: 40px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 400;
         }
 
         .close:hover {
-            color: #333;
+            color: #1a202c;
+            background: #e2e8f0;
         }
 
+        /* Теория и практика внутри модалки */
         .theory-section {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 20px;
+            background: #f7fafc;
+            border-left: 4px solid #5a67d8;
+            padding: 16px;
             margin: 20px 0;
-            border-radius: 0 10px 10px 0;
+            border-radius: 0 16px 16px 0;
+            font-size: 0.95rem;
         }
 
         .code-block {
-            background: #2d3748;
+            background: #1e293b;
             color: #e2e8f0;
-            padding: 15px;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            margin: 15px 0;
+            padding: 14px;
+            border-radius: 14px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            margin: 16px 0;
             overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .code-block pre {
+            font-family: inherit;
+            white-space: pre-wrap;
+            word-break: break-word;
         }
 
         .practice-task {
-            background: #e6f7ff;
-            border: 1px solid #91d5ff;
-            border-radius: 10px;
-            padding: 20px;
+            background: #ebf8ff;
+            border: 1px solid #90cdf4;
+            border-radius: 18px;
+            padding: 18px;
             margin: 20px 0;
         }
 
         .practice-task h4 {
-            color: #0050b3;
-            margin-bottom: 10px;
+            color: #2c5282;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .hint-box {
+            background: #fff9e6;
+            border-left: 4px solid #fbbf24;
+            padding: 14px;
+            margin: 16px 0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+        }
+
+        .note {
+            background: #e9d8fd;
+            border-radius: 12px;
+            padding: 14px;
+            margin: 16px 0;
+            border: 1px solid #b794f4;
         }
 
         /* Подвал */
         footer {
-            background: rgba(0,0,0,0.8);
-            color: white;
+            background: rgba(0,0,0,0.7);
+            color: #cbd5e0;
             text-align: center;
-            padding: 20px;
-            margin-top: 60px;
+            padding: 16px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(2px);
         }
 
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
+        /* Анимация карточек */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Дополнительные мобильные штрихи */
+        ul, ol {
+            padding-left: 22px;
+            margin: 12px 0;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        h3, h4 {
+            margin: 18px 0 8px;
+            line-height: 1.3;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+        }
+
+        /* Уменьшаем заголовки внутри модалки */
+        .modal-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            padding-right: 32px; /* чтобы не залезало на крестик */
+        }
+
+        /* Делаем таблички компактными */
+        table {
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px 5px;
+        }
+
+        /* Очень маленькие экраны */
+        @media (max-width: 400px) {
+            .logo {
+                font-size: 1.2rem;
             }
-            
             nav a {
-                margin: 0 1rem;
+                margin-left: 0.7rem;
+                font-size: 0.85rem;
             }
-            
-            .modal-content {
-                margin: 20px;
-                padding: 20px;
+            #hero h1 {
+                font-size: 1.9rem;
+            }
+            .lesson-title {
+                font-size: 1.2rem;
+            }
+            .btn {
+                font-size: 0.95rem;
+                padding: 10px 16px;
             }
         }
     </style>
@@ -230,87 +362,72 @@
 <body>
     <header>
         <div class="header-content">
-            <div class="logo">Академия Python</div>
+            <div class="logo">🐍 Академия Python</div>
             <nav>
                 <a href="#lessons">Уроки</a>
-                <a href="#about">О нас</a>
-                <a href="#contact">Контакты</a>
+                <a href="#hero">О нас</a>
             </nav>
         </div>
     </header>
 
     <main>
-        <section id="hero" style="text-align: center; color: white; padding: 60px 0;">
-            <h1 style="font-size: 3rem; margin-bottom: 20px;">Изучай Python с нами!</h1>
-            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto;">Увлекательные уроки программирования для подростков. От основ до создания своих проектов!</p>
+        <section id="hero">
+            <h1>Python для подростков</h1>
+            <p>Короткие уроки, понятная теория и практика прямо в браузере</p>
         </section>
 
         <section id="lessons">
-            <h2 style="color: white; font-size: 2.5rem; margin-bottom: 40px;">Наши уроки</h2>
+            <h2>📱 Все уроки</h2>
             
             <div class="lesson-grid" id="lessonGrid">
-                <!-- Урок 1 -->
+                <!-- Карточки уроков (без изменений, но стили подогнаны) -->
                 <div class="lesson-card" data-lesson="1">
                     <div class="lesson-number">01</div>
                     <h3 class="lesson-title">Введение в Python</h3>
-                    <p class="lesson-description">Узнай, что такое Python, установи среду разработки и напиши свою первую программу!</p>
-                    <button class="btn" onclick="openLesson(1)">Начать урок</button>
+                    <p class="lesson-description">Первая программа, установка, традиции.</p>
+                    <button class="btn" onclick="openLesson(1)">Начать</button>
                 </div>
-
-                <!-- Урок 2 -->
                 <div class="lesson-card" data-lesson="2">
                     <div class="lesson-number">02</div>
-                    <h3 class="lesson-title">Переменные и типы данных</h3>
-                    <p class="lesson-description">Научись хранить информацию в программе: числа, строки и булевы значения.</p>
-                    <button class="btn" onclick="openLesson(2)">Начать урок</button>
+                    <h3 class="lesson-title">Переменные и типы</h3>
+                    <p class="lesson-description">Числа, строки, ввод и вывод.</p>
+                    <button class="btn" onclick="openLesson(2)">Начать</button>
                 </div>
-
-                <!-- Урок 3 -->
                 <div class="lesson-card" data-lesson="3">
                     <div class="lesson-number">03</div>
                     <h3 class="lesson-title">Условные операторы</h3>
-                    <p class="lesson-description">Научи программу принимать решения с помощью if, elif и else.</p>
-                    <button class="btn" onclick="openLesson(3)">Начать урок</button>
+                    <p class="lesson-description">if, elif, else, логика.</p>
+                    <button class="btn" onclick="openLesson(3)">Начать</button>
                 </div>
-
-                <!-- Урок 4 -->
                 <div class="lesson-card" data-lesson="4">
                     <div class="lesson-number">04</div>
-                    <h3 class="lesson-title">Циклы for и while</h3>
-                    <p class="lesson-description">Автоматизируй повторяющиеся действия с помощью циклов.</p>
-                    <button class="btn" onclick="openLesson(4)">Начать урок</button>
+                    <h3 class="lesson-title">Циклы for/while</h3>
+                    <p class="lesson-description">range, break, continue.</p>
+                    <button class="btn" onclick="openLesson(4)">Начать</button>
                 </div>
-
-                <!-- Урок 5 -->
                 <div class="lesson-card" data-lesson="5">
                     <div class="lesson-number">05</div>
                     <h3 class="lesson-title">Функции</h3>
-                    <p class="lesson-description">Создавай свои собственные функции и организуй код в блоки.</p>
-                    <button class="btn" onclick="openLesson(5)">Начать урок</button>
+                    <p class="lesson-description">def, return, параметры.</p>
+                    <button class="btn" onclick="openLesson(5)">Начать</button>
                 </div>
-
-                <!-- Урок 6 -->
                 <div class="lesson-card" data-lesson="6">
                     <div class="lesson-number">06</div>
                     <h3 class="lesson-title">Строки и методы</h3>
-                    <p class="lesson-description">Работай с текстом: форматирование, поиск и замена в строках.</p>
-                    <button class="btn" onclick="openLesson(6)">Начать урок</button>
+                    <p class="lesson-description">Индексы, срезы, форматирование.</p>
+                    <button class="btn" onclick="openLesson(6)">Начать</button>
                 </div>
-
-                <!-- Урок 7: Списки и индексация (НОВЫЙ) -->
                 <div class="lesson-card" data-lesson="7">
                     <div class="lesson-number">07</div>
-                    <h3 class="lesson-title">Списки и индексация</h3>
-                    <p class="lesson-description">Научись храть коллекции данных и обращаться к элементам по индексу.</p>
-                    <button class="btn" onclick="openLesson(7)">Начать урок</button>
+                    <h3 class="lesson-title">Списки</h3>
+                    <p class="lesson-description">Коллекции, индексация, методы.</p>
+                    <button class="btn" onclick="openLesson(7)">Начать</button>
                 </div>
-
-                <!-- Урок 8: Модуль random (НОВЫЙ) -->
                 <div class="lesson-card" data-lesson="8">
                     <div class="lesson-number">08</div>
                     <h3 class="lesson-title">Модуль random</h3>
-                    <p class="lesson-description">Добавь случайность в свои программы: игры, угадайки и генераторы.</p>
-                    <button class="btn" onclick="openLesson(8)">Начать урок</button>
+                    <p class="lesson-description">Случайности, игры, генераторы.</p>
+                    <button class="btn" onclick="openLesson(8)">Начать</button>
                 </div>
             </div>
         </section>
@@ -321,17 +438,17 @@
         <div class="modal-content" id="lessonContent">
             <span class="close" onclick="closeModal()">&times;</span>
             <div id="lessonBody">
-                <!-- Динамически загружается из lessonsData -->
+                <!-- динамически подгружается -->
             </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2025 Академия Python. Учим программировать весело и с душой!</p>
+        <p>© 2025 Академия Python — мобильная версия</p>
     </footer>
 
     <script>
-        // Данные уроков (теория и практика)
+        // Все данные уроков полностью сохранены (сокращать их нельзя, поэтому оставляем как есть)
         const lessonsData = {
             1: {
     title: "Урок 1: Введение в Python",
@@ -3205,22 +3322,23 @@ even = random.randrange(0, 10, 2)  # 0,2,4,6,8
             const lessonBody = document.getElementById('lessonBody');
             
             lessonBody.innerHTML = `
-                <h2 style="color: #333; margin-bottom: 20px;">${lesson.title}</h2>
+                <h2 style="color: #1a202c; margin-bottom: 16px;">${lesson.title}</h2>
                 ${lesson.theory}
                 ${lesson.practice}
             `;
             
             modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // запрещаем прокрутку фона
+            document.body.style.overflow = 'hidden';
+            window.scrollTo(0, 0); // прокручиваем модалку вверх при открытии
         }
 
         function closeModal() {
             const modal = document.getElementById('lessonModal');
             modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // возвращаем прокрутку
+            document.body.style.overflow = 'auto';
         }
 
-        // Закрытие по клику вне модального окна
+        // Закрытие по клику вне контента
         window.onclick = function(event) {
             const modal = document.getElementById('lessonModal');
             if (event.target === modal) {
@@ -3228,30 +3346,24 @@ even = random.randrange(0, 10, 2)  # 0,2,4,6,8
             }
         }
 
-        // Добавим плавное появление карточек
+        // Анимация появления карточек
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.lesson-card');
             cards.forEach((card, index) => {
                 card.style.opacity = '0';
-                card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
+                card.style.animation = `fadeInUp 0.4s ease forwards ${index * 0.07}s`;
             });
         });
 
-        // Добавим стиль для анимации
-        const style = document.createElement('style');
-        style.textContent = `
+        // стили для анимации (если не добавились в head)
+        const styleAnim = document.createElement('style');
+        styleAnim.textContent = `
             @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+                from { opacity: 0; transform: translateY(15px); }
+                to { opacity: 1; transform: translateY(0); }
             }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(styleAnim);
     </script>
 </body>
 </html>
