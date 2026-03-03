@@ -1,0 +1,3257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Академия Python | Для подростков</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Шапка */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #667eea;
+        }
+
+        /* Основной контент */
+        main {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+        }
+
+        /* Карточки уроков */
+        .lesson-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .lesson-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #667eea;
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .lesson-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .lesson-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 800px;
+            margin: 50px auto;
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            position: absolute;
+            right: 30px;
+            top: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .theory-section {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .practice-task {
+            background: #e6f7ff;
+            border: 1px solid #91d5ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .practice-task h4 {
+            color: #0050b3;
+            margin-bottom: 10px;
+        }
+
+        /* Подвал */
+        footer {
+            background: rgba(0,0,0,0.8);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav a {
+                margin: 0 1rem;
+            }
+            
+            .modal-content {
+                margin: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Академия Python</div>
+            <nav>
+                <a href="#lessons">Уроки</a>
+                <a href="#about">О нас</a>
+                <a href="#contact">Контакты</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" style="text-align: center; color: white; padding: 60px 0;">
+            <h1 style="font-size: 3rem; margin-bottom: 20px;">Изучай Python с нами!</h1>
+            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto;">Увлекательные уроки программирования для подростков. От основ до создания своих проектов!</p>
+        </section>
+
+        <section id="lessons">
+            <h2 style="color: white; font-size: 2.5rem; margin-bottom: 40px;">Наши уроки</h2>
+            
+            <div class="lesson-grid" id="lessonGrid">
+                <!-- Урок 1 -->
+                <div class="lesson-card" data-lesson="1">
+                    <div class="lesson-number">01</div>
+                    <h3 class="lesson-title">Введение в Python</h3>
+                    <p class="lesson-description">Узнай, что такое Python, установи среду разработки и напиши свою первую программу!</p>
+                    <button class="btn" onclick="openLesson(1)">Начать урок</button>
+                </div>
+
+                <!-- Урок 2 -->
+                <div class="lesson-card" data-lesson="2">
+                    <div class="lesson-number">02</div>
+                    <h3 class="lesson-title">Переменные и типы данных</h3>
+                    <p class="lesson-description">Научись хранить информацию в программе: числа, строки и булевы значения.</p>
+                    <button class="btn" onclick="openLesson(2)">Начать урок</button>
+                </div>
+
+                <!-- Урок 3 -->
+                <div class="lesson-card" data-lesson="3">
+                    <div class="lesson-number">03</div>
+                    <h3 class="lesson-title">Условные операторы</h3>
+                    <p class="lesson-description">Научи программу принимать решения с помощью if, elif и else.</p>
+                    <button class="btn" onclick="openLesson(3)">Начать урок</button>
+                </div>
+
+                <!-- Урок 4 -->
+                <div class="lesson-card" data-lesson="4">
+                    <div class="lesson-number">04</div>
+                    <h3 class="lesson-title">Циклы for и while</h3>
+                    <p class="lesson-description">Автоматизируй повторяющиеся действия с помощью циклов.</p>
+                    <button class="btn" onclick="openLesson(4)">Начать урок</button>
+                </div>
+
+                <!-- Урок 5 -->
+                <div class="lesson-card" data-lesson="5">
+                    <div class="lesson-number">05</div>
+                    <h3 class="lesson-title">Функции</h3>
+                    <p class="lesson-description">Создавай свои собственные функции и организуй код в блоки.</p>
+                    <button class="btn" onclick="openLesson(5)">Начать урок</button>
+                </div>
+
+                <!-- Урок 6 -->
+                <div class="lesson-card" data-lesson="6">
+                    <div class="lesson-number">06</div>
+                    <h3 class="lesson-title">Строки и методы</h3>
+                    <p class="lesson-description">Работай с текстом: форматирование, поиск и замена в строках.</p>
+                    <button class="btn" onclick="openLesson(6)">Начать урок</button>
+                </div>
+
+                <!-- Урок 7: Списки и индексация (НОВЫЙ) -->
+                <div class="lesson-card" data-lesson="7">
+                    <div class="lesson-number">07</div>
+                    <h3 class="lesson-title">Списки и индексация</h3>
+                    <p class="lesson-description">Научись храть коллекции данных и обращаться к элементам по индексу.</p>
+                    <button class="btn" onclick="openLesson(7)">Начать урок</button>
+                </div>
+
+                <!-- Урок 8: Модуль random (НОВЫЙ) -->
+                <div class="lesson-card" data-lesson="8">
+                    <div class="lesson-number">08</div>
+                    <h3 class="lesson-title">Модуль random</h3>
+                    <p class="lesson-description">Добавь случайность в свои программы: игры, угадайки и генераторы.</p>
+                    <button class="btn" onclick="openLesson(8)">Начать урок</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно урока -->
+    <div id="lessonModal" class="modal">
+        <div class="modal-content" id="lessonContent">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="lessonBody">
+                <!-- Динамически загружается из lessonsData -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Академия Python. Учим программировать весело и с душой!</p>
+    </footer>
+
+    <script>
+        // Данные уроков (теория и практика)
+        const lessonsData = {
+            1: {
+    title: "Урок 1: Введение в Python",
+    theory: `
+        <div class="theory-section">
+            <h3>📚 Что такое Python?</h3>
+            <p>Python — это язык программирования, который создал Гвидо ван Россум в 1991 году. Название происходит от британского комедийного шоу "Летающий цирк Монти Пайтона", а не от змеи! 🐍</p>
+            
+            <h4>Почему Python так популярен?</h4>
+            <ul>
+                <li><strong>Простота:</strong> Код на Python читается почти как английский язык</li>
+                <li><strong>Универсальность:</strong> На Python пишут веб-сайты, игры, программы для науки и даже искусственный интеллект</li>
+                <li><strong>Сообщество:</strong> Миллионы программистов по всему миру используют Python и готовы помочь</li>
+                <li><strong>Библиотеки:</strong> Есть готовые решения для любых задач - от рисования до анализа данных</li>
+            </ul>
+
+            <h4>Где писать код?</h4>
+            <p>Есть несколько способов начать программировать на Python:</p>
+            <ul>
+                <li><strong>IDLE</strong> — простая среда, которая устанавливается вместе с Python</li>
+                <li><strong>VS Code</strong> — популярный редактор с подсветкой кода и подсказками</li>
+                <li><strong>Replit</strong> — онлайн-редактор, не требует установки (достаточно открыть сайт)</li>
+                <li><strong>PyCharm</strong> — профессиональная среда для Python (рекомендуем для продвинутых)</li>
+            </ul>
+
+            <h4>Как работает компьютерная программа?</h4>
+            <p>Представь, что компьютер — это очень умный, но буквальный помощник. Он выполняет команды строго в том порядке, в котором ты их написал. Программа — это список инструкций для компьютера.</p>
+
+            <h4>Твоя первая программа</h4>
+            <p>В программировании есть традиция: первая программа выводит "Hello, World!" (Привет, мир!). Это как "первое слово" в мире кода.</p>
+            
+            <div class="code-block">
+                <pre>
+# Это комментарий - Python его игнорирует
+# Комментарии помогают объяснять код и не влияют на работу программы
+
+print("Hello, World!")  # Выводит текст на экран
+print("Меня зовут Python!")
+print("Я учусь программировать!")
+
+# Можно выводить числа без кавычек
+print(42)
+print(3.14)
+
+# Можно выводить несколько значений через запятую
+print("Мне", 15, "лет")
+                </pre>
+            </div>
+
+            <h4>Функция print() подробно</h4>
+            <p><strong>print()</strong> — это встроенная функция Python для вывода информации. Внутри скобок указывается то, что нужно вывести:</p>
+            <ul>
+                <li><strong>Текст (строки)</strong> — обязательно в кавычках: <code>print("Привет")</code></li>
+                <li><strong>Числа</strong> — без кавычек: <code>print(42)</code></li>
+                <li><strong>Несколько значений</strong> — через запятую: <code>print("Результат:", 10 + 5)</code></li>
+            </ul>
+
+            <div class="note">
+                <p>🔍 <strong>Важные правила:</strong></p>
+                <ul>
+                    <li>Кавычки могут быть одинарными ' ' или двойными " " — разницы нет, главное использовать одинаковые</li>
+                    <li>Текст без кавычек Python воспринимает как команду и будет искать такую команду</li>
+                    <li>Каждая команда print() по умолчанию выводит текст с новой строки</li>
+                    <li>Python чувствителен к регистру: print и Print — это разные вещи (правильно только print)</li>
+                </ul>
+            </div>
+
+            <h4>Ошибки — это нормально!</h4>
+            <p>Когда ты только начинаешь, ошибки случаются постоянно. Вот самые частые:</p>
+            <ul>
+                <li><strong>SyntaxError</strong> — пропущена кавычка или скобка</li>
+                <li><strong>NameError</strong> — опечатка в названии команды (например, Print вместо print)</li>
+                <li><strong>IndentationError</strong> — проблема с отступами (будет позже)</li>
+            </ul>
+            <p>Не бойся ошибок — читай сообщение об ошибке, оно часто подсказывает, что исправить!</p>
+        </div>
+    `,
+    practice: `
+        <div class="practice-task">
+            <h4>🧪 Практическое задание: "Моя визитка"</h4>
+            <p>Создай программу, которая расскажет о тебе. Нужно вывести:</p>
+            <ol>
+                <li>Приветствие с твоим именем (например, "Привет, я Анна")</li>
+                <li>Твой возраст (просто число)</li>
+                <li>Любимый школьный предмет</li>
+                <li>Хобби или увлечение</li>
+                <li>Сколько часов в день ты проводишь за компьютером (число)</li>
+                <li>Строку из нескольких значений: "Меня зовут [имя], мне [возраст] лет"</li>
+            </ol>
+            
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 1: Структура программы</strong></p>
+                <p>Твоя программа будет состоять из нескольких команд print(). Каждая команда с новой строки:</p>
+                <code>
+                    print("Привет, я Максим")<br>
+                    print(14)<br>
+                    print("Любимый предмет - математика")<br>
+                    print("Увлекаюсь футболом")<br>
+                    print(3)<br>
+                    print("Меня зовут", "Максим", "мне", 14, "лет")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 2: Для чисел кавычки не нужны</p>
+                <code>
+                    print(15)  # правильно - число<br>
+                    print("15") # тоже работает, но это текст, а не число
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 3: Если что-то не работает</strong></p>
+                <p>Проверь:</p>
+                <ul>
+                    <li>Все ли кавычки закрыты?</li>
+                    <li>Есть ли скобки после print?</li>
+                    <li>Нет ли лишних пробелов перед print?</li>
+                    <li>Все буквы в слове print маленькие?</li>
+                </ul>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🎯 Пример результата:</strong></p>
+                <code>
+                    Привет, я Максим<br>
+                    14<br>
+                    Любимый предмет - математика<br>
+                    Увлекаюсь футболом<br>
+                    3<br>
+                    Меня зовут Максим мне 14 лет
+                </code>
+            </div>
+
+            <div class="note">
+                <p>🏆 <strong>Для продвинутых:</strong> Попробуй использовать переменные (мы изучим их в следующем уроке) для хранения имени и возраста, а потом выведи их:</p>
+                <code>
+                    name = "Максим"<br>
+                    age = 14<br>
+                    print("Меня зовут", name, "мне", age, "лет")
+                </code>
+            </div>
+        </div>
+    `
+},
+            2:{
+    title: "Урок 2: Переменные и типы данных",
+    theory: `
+        <div class="theory-section">
+            <h3>📚 Что такое переменные?</h3>
+            <p>Представь, что переменная — это коробка с наклейкой. В коробку можно положить значение (число, текст или что-то другое), а по наклейке всегда найти эту коробку и использовать то, что внутри.</p>
+            
+            <div class="code-block">
+                <pre>
+# Создание переменных (кладу значения в коробки)
+name = "Анна"              # строка (текст)
+age = 15                   # целое число
+height = 1.65              # число с плавающей точкой
+is_student = True          # логическое значение (булево)
+
+# Использование переменных (достаю из коробок)
+print("Имя:", name)
+print("Возраст:", age)
+print("Рост:", height)
+print("Учится?", is_student)
+                </pre>
+            </div>
+
+            <h4>Типы данных в Python</h4>
+            <p>В Python каждая переменная имеет тип, который определяет, какие операции с ней можно делать:</p>
+            
+            <ul>
+                <li><strong>int</strong> (integer) — целые числа: -5, 0, 42, 1000, 2024
+                    <br><small>Пример: <code>age = 15</code></small>
+                </li>
+                <li><strong>float</strong> — дробные числа: 3.14, -0.5, 2.0, 1.5
+                    <br><small>Пример: <code>price = 99.99</code></small>
+                </li>
+                <li><strong>str</strong> (string) — строки (текст): "привет", 'Python', "123", "Москва"
+                    <br><small>Пример: <code>city = "Москва"</code></small>
+                </li>
+                <li><strong>bool</strong> (boolean) — логические значения: True (истина) или False (ложь)
+                    <br><small>Пример: <code>is_sunny = True</code></small>
+                </li>
+            </ul>
+
+            <h4>Правила именования переменных</h4>
+            <p>Чтобы твой код был понятным и работал без ошибок, важно правильно называть переменные:</p>
+            
+            <ul>
+                <li>✅ Имя может содержать буквы (английские), цифры и знак подчеркивания _</li>
+                <li>❌ Имя не может начинаться с цифры (1name — ошибка!)</li>
+                <li>❌ Имя не должно совпадать с ключевыми словами (if, for, while, True, False и т.д.)</li>
+                <li>✅ Используй осмысленные имена — это очень важно!</li>
+                <li>✅ Для длинных имен используй нижнее подчеркивание: student_name, favorite_color</li>
+                <li>⚠️ Python чувствителен к регистру: name и Name — разные переменные</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>
+# Хорошие имена (понятно, что хранится)
+student_name = "Олег"
+student_age = 16
+final_grade = 4.5
+favorite_subject = "математика"
+is_graduated = False
+
+# Плохие имена (непонятно, что хранится)
+a = "Олег"        # непонятно, что это за данные
+myvar1 = 16       # myvar1 ни о чем не говорит
+x = 4.5           # что такое x?
+class = "5А"      # class - ключевое слово! Так нельзя!
+                </pre>
+            </div>
+
+            <h4>Операции с разными типами данных</h4>
+            <p>С числами можно делать математические операции, а с текстом — соединять:</p>
+
+            <div class="code-block">
+                <pre>
+# Числа (int и float)
+a = 10
+b = 3
+print(a + b)   # 13 (сложение)
+print(a - b)   # 7  (вычитание)
+print(a * b)   # 30 (умножение)
+print(a / b)   # 3.333... (деление)
+print(a // b)  # 3  (целочисленное деление)
+print(a ** b)  # 1000 (10 в степени 3)
+
+# Строки (str)
+first_name = "Анна"
+last_name = "Петрова"
+full_name = first_name + " " + last_name  # конкатенация (соединение)
+print(full_name)  # Анна Петрова
+
+# Повторение строки
+print("Привет! " * 3)  # Привет! Привет! Привет!
+                </pre>
+            </div>
+
+            <h4>Ввод данных от пользователя</h4>
+            <p>Функция <strong>input()</strong> позволяет получать информацию от пользователя и сохранять её в переменные:</p>
+            
+            <div class="code-block">
+                <pre>
+# Простой ввод
+name = input("Как тебя зовут? ")
+print("Привет,", name)
+
+# Важно! input() всегда возвращает строку (str)
+age = input("Сколько тебе лет? ")
+print("Через год тебе будет", age + 1)  # ОШИБКА! Нельзя сложить строку и число
+
+# Правильно: преобразуем строку в число
+age = int(input("Сколько тебе лет? "))
+print("Через год тебе будет", age + 1)  # Теперь работает
+
+# Для дробных чисел используем float()
+height = float(input("Какой у тебя рост? "))
+                </pre>
+            </div>
+            
+            <div class="note">
+                <p>⚠️ <strong>Важно запомнить!</strong></p>
+                <ul>
+                    <li><code>input()</code> всегда возвращает строку (тип str)</li>
+                    <li>Если нужно число, используй <code>int()</code> или <code>float()</code> для преобразования</li>
+                    <li>Если преобразовать не получается (например, ввели буквы вместо чисел), программа выдаст ошибку</li>
+                </ul>
+            </div>
+
+            <h4>Проверка типа переменной</h4>
+            <p>Можно проверить, какого типа переменная, с помощью функции type():</p>
+
+            <div class="code-block">
+                <pre>
+x = 42
+print(type(x))  # <class 'int'>
+
+y = "Привет"
+print(type(y))  # <class 'str'>
+
+z = 3.14
+print(type(z))  # <class 'float'>
+
+is_ok = True
+print(type(is_ok))  # <class 'bool'>
+                </pre>
+            </div>
+
+            <div class="note">
+                <p>🎯 <strong>Краткий итог:</strong></p>
+                <ul>
+                    <li>Переменные — это именованные контейнеры для данных</li>
+                    <li>У каждой переменной есть тип: int, float, str, bool и другие</li>
+                    <li>Имена переменных должны быть понятными и начинаться с буквы</li>
+                    <li>input() получает данные от пользователя (всегда строку)</li>
+                    <li>int() и float() преобразуют строку в число</li>
+                </ul>
+            </div>
+        </div>
+    `,
+    practice: `
+        <div class="practice-task">
+            <h4>🧪 Практическое задание: "Карточка фильма"</h4>
+            <p>Создай программу, которая запрашивает информацию о любимом фильме и выводит её в красивом формате.</p>
+            
+            <h4>Задание:</h4>
+            <ol>
+                <li>Запроси у пользователя:
+                    <ul>
+                        <li>Название фильма (строка)</li>
+                        <li>Год выпуска (целое число)</li>
+                        <li>Рейтинг фильма (дробное число, например 8.5)</li>
+                        <li>Режиссёра (строка)</li>
+                        <li>Свой отзыв (строка, например "Очень понравилось!")</li>
+                    </ul>
+                </li>
+                <li>Сохрани все ответы в переменные с понятными именами</li>
+                <li>Преобразуй год и рейтинг в правильные типы данных (int и float)</li>
+                <li>Выведи всю информацию в таком формате:
+                    <br>
+                    <code>
+                        --- [Название фильма] ---<br>
+                        Год выпуска: [год]<br>
+                        Режиссёр: [имя режиссёра]<br>
+                        Рейтинг: [рейтинг]/10<br>
+                        Мой отзыв: [текст отзыва]
+                    </code>
+                </li>
+            </ol>
+            
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 1: Шаблон кода</strong></p>
+                <code>
+                    # Запрашиваем информацию<br>
+                    title = input("Введите название фильма: ")<br>
+                    year = int(input("Введите год выпуска: "))<br>
+                    rating = float(input("Введите рейтинг фильма: "))<br>
+                    director = input("Введите имя режиссёра: ")<br>
+                    review = input("Ваш отзыв: ")<br>
+                    <br>
+                    # Выводим в красивом формате<br>
+                    print("---", title, "---")<br>
+                    print("Год выпуска:", year)<br>
+                    print("Режиссёр:", director)<br>
+                    print("Рейтинг:", rating, "/10")<br>
+                    print("Мой отзыв:", review)
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 2: Проверь себя</strong></p>
+                <p>После запуска программы должно получиться что-то такое:</p>
+                <code>
+                    Введите название фильма: Аватар<br>
+                    Введите год выпуска: 2009<br>
+                    Введите рейтинг фильма: 8.5<br>
+                    Введите имя режиссёра: Джеймс Кэмерон<br>
+                    Ваш отзыв: Потрясающий фильм!<br>
+                    <br>
+                    --- Аватар ---<br>
+                    Год выпуска: 2009<br>
+                    Режиссёр: Джеймс Кэмерон<br>
+                    Рейтинг: 8.5 /10<br>
+                    Мой отзыв: Потрясающий фильм!
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 3: Типичные ошибки</strong></p>
+                <ul>
+                    <li><strong>Ошибка:</strong> забыл преобразовать год в int → потом нельзя будет делать вычисления с годом</li>
+                    <li><strong>Ошибка:</strong> ввел текст вместо числа для рейтинга → программа упадет (для учебного задания норм, но знай)</li>
+                    <li><strong>Ошибка:</strong> непонятные имена переменных (a, b, c) → трудно читать код</li>
+                </ul>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 4: Дополнительное украшение</strong></p>
+                <p>Можно сделать вывод красивее с помощью специальных символов:</p>
+                <code>
+                    print("=" * 30)  # выведет 30 знаков равно<br>
+                    print("🎬", title, "🎬")  # добавит эмодзи
+                </code>
+            </div>
+
+            <div class="note">
+                <p>🏆 <strong>Для продвинутых:</strong> Добавь в программу:</p>
+                <ul>
+                    <li>Подсчёт возраста фильма: <code>2025 - year</code></li>
+                    <li>Оценку рейтинга: если rating >= 8, выведи "🔥 Шедевр!", иначе "😐 Норм"</li>
+                    <li>Используй f-строки для красивого вывода (поищи в интернете, что это)</li>
+                </ul>
+            </div>
+        </div>
+    `
+},
+            3: {
+    title: "Урок 3: Условные операторы",
+    theory: `
+        <div class="theory-section">
+            <h3>📚 Принятие решений в программах</h3>
+            <p>В жизни мы постоянно принимаем решения: "Если пойдет дождь, возьму зонт, иначе надену кепку". В программировании то же самое — компьютеру тоже нужно принимать решения в зависимости от ситуации. Для этого существуют условные операторы.</p>
+            
+            <h4>Операторы сравнения</h4>
+            <p>Прежде чем принимать решения, нужно уметь сравнивать значения. Вот основные операторы сравнения в Python:</p>
+            
+            <ul>
+                <li><code>==</code> — равно (важно: два знака равно! Один знак = это присваивание)</li>
+                <li><code>!=</code> — не равно</li>
+                <li><code>></code> — больше</li>
+                <li><code><</code> — меньше</li>
+                <li><code>>=</code> — больше или равно</li>
+                <li><code><=</code> — меньше или равно</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>
+# Примеры сравнений
+print(5 > 3)    # True (истина)
+print(10 == 5)  # False (ложь)
+print(7 != 7)   # False (ложь)
+print(4 <= 4)   # True (истина)
+                </pre>
+            </div>
+
+            <h4>Конструкция if-elif-else</h4>
+            <p>Основная структура для принятия решений в Python выглядит так:</p>
+            
+            <div class="code-block">
+                <pre>
+if условие:
+    # блок кода, который выполнится, если условие истинно
+    команда1
+    команда2
+elif другое_условие:
+    # блок кода, если первое условие ложно, а это истинно
+    команда3
+else:
+    # блок кода, если все условия ложны
+    команда4
+                </pre>
+            </div>
+
+            <p>Рассмотрим конкретный пример с возрастами:</p>
+
+            <div class="code-block">
+                <pre>
+age = 16
+
+if age >= 18:
+    print("Ты совершеннолетний")
+    print("Можно голосовать и покупать энергетики")
+elif age >= 14:
+    print("Ты подросток")
+    print("Можно получить паспорт")
+elif age >= 7:
+    print("Ты школьник")
+    print("Пора идти в школу")
+else:
+    print("Ты дошкольник")
+    print("Играй в игрушки")
+
+print("Программа продолжается")  # эта команда выполнится всегда
+                </pre>
+            </div>
+
+            <div class="note">
+                <p>🔑 <strong>Ключевые моменты:</strong></p>
+                <ul>
+                    <li>После <strong>if, elif, else</strong> обязательно ставится двоеточие <strong>:</strong></li>
+                    <li>Внутри блока все строки имеют одинаковый отступ — обычно 4 пробела</li>
+                    <li>Можно использовать сколько угодно <strong>elif</strong></li>
+                    <li><strong>else</strong> может быть только один и всегда в конце</li>
+                    <li>Блок <strong>else</strong> выполняется, если ни одно условие не подошло</li>
+                </ul>
+            </div>
+
+            <h4>Логические операторы</h4>
+            <p>Часто нужно проверить несколько условий одновременно. Для этого есть логические операторы:</p>
+            
+            <ul>
+                <li><strong>and</strong> — И (оба условия должны быть истинны)</li>
+                <li><strong>or</strong> — ИЛИ (хотя бы одно условие истинно)</li>
+                <li><strong>not</strong> — НЕ (отрицание, меняет True на False и наоборот)</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>
+temperature = 25
+sunny = True
+windy = False
+
+# and - оба условия должны быть True
+if temperature > 20 and sunny:
+    print("Отличная погода для прогулки!")  # Выполнится
+    
+# or - достаточно одного True
+if temperature < 10 or rainy:
+    print("Лучше остаться дома")
+    
+# not - отрицание
+if not windy:
+    print("Ветра нет, можно идти гулять")
+    
+# Сложные условия
+age = 15
+money = 100
+if (age >= 14 or money > 500) and not is_school_day:
+    print("Можно идти в кино!")
+                </pre>
+            </div>
+
+            <h4>Вложенные условия</h4>
+            <p>Условия можно вкладывать друг в друга:</p>
+
+            <div class="code-block">
+                <pre>
+age = 20
+has_ticket = True
+
+if age >= 18:
+    print("Возраст подходит")
+    if has_ticket:
+        print("Проходите на концерт!")
+    else:
+        print("Купите билет")
+else:
+    print("Вход только с 18 лет")
+                </pre>
+            </div>
+
+            <h4>Тернарный оператор</h4>
+            <p>Для простых условий можно использовать короткую запись в одну строку:</p>
+
+            <div class="code-block">
+                <pre>
+# Обычная запись
+if age >= 18:
+    status = "взрослый"
+else:
+    status = "ребенок"
+
+# Тернарный оператор (короткая запись)
+status = "взрослый" if age >= 18 else "ребенок"
+print(status)
+                </pre>
+            </div>
+
+            <h4>Типичные ошибки</h4>
+            <ul>
+                <li><strong>Забыл двоеточие</strong> — самая частая ошибка: <code>if age > 18</code> ❌ вместо <code>if age > 18:</code> ✅</li>
+                <li><strong>Путаница = и ==</strong> — <code>if age = 18</code> ❌ (присваивание) вместо <code>if age == 18</code> ✅ (сравнение)</li>
+                <li><strong>Разные отступы</strong> — все строки в блоке должны иметь одинаковый отступ</li>
+                <li><strong>Лишние точки с запятой</strong> — в Python они не нужны (но и не запрещены)</li>
+            </ul>
+
+            <div class="note">
+                <p>🎯 <strong>Практический совет:</strong> Всегда проверяй граничные случаи. Если условие <code>age >= 18</code>, проверь возраст 18 — должно сработать. Если <code>age > 18</code>, то 18 уже не сработает.</p>
+            </div>
+        </div>
+    `,
+    practice: `
+        <div class="practice-task">
+            <h4>🧪 Практическое задание: "Определитель чисел"</h4>
+            <p>Создай программу, которая анализирует число, введенное пользователем.</p>
+            
+            <h4>Базовый уровень (обязательно):</h4>
+            <ol>
+                <li>Запроси у пользователя целое число</li>
+                <li>Проверь и выведи:
+                    <ul>
+                        <li>Если число положительное — выведи "Плюс"</li>
+                        <li>Если отрицательное — выведи "Минус"</li>
+                        <li>Если ноль — выведи "Ноль"</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>Средний уровень (добавь к базовому):</h4>
+            <ol start="3">
+                <li>Проверь чётность числа: выведи "Чётное" или "Нечётное" (подсказка: используй %)</li>
+                <li>Если число делится на 10, выведи "Круглое число"</li>
+            </ol>
+
+            <h4>Продвинутый уровень (для самых смелых):</h4>
+            <ol start="5">
+                <li>Проверь, является ли число двузначным (от 10 до 99 или от -99 до -10)</li>
+                <li>Если число положительное и чётное, выведи "Отличное число!"</li>
+                <li>Если число отрицательное и нечётное, выведи "Интересное число..."</li>
+            </ol>
+            
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 1: Базовая структура</strong></p>
+                <code>
+                    number = int(input("Введите число: "))<br>
+                    <br>
+                    if number > 0:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Плюс")<br>
+                    elif number < 0:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Минус")<br>
+                    else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Ноль")<br>
+                    <br>
+                    # Дальше добавляй свои проверки
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 2: Проверка чётности</strong></p>
+                <p>Чтобы проверить, чётное ли число, используй оператор % (остаток от деления):</p>
+                <code>
+                    if number % 2 == 0:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Чётное")<br>
+                    else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Нечётное")
+                </code>
+                <p>Если число делится на 2 без остатка — оно чётное.</p>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 3: Проверка на двузначность</strong></p>
+                <p>Двузначные числа — это от 10 до 99 (положительные) и от -99 до -10 (отрицательные):</p>
+                <code>
+                    if (number >= 10 and number <= 99) or (number <= -10 and number >= -99):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Двузначное число")
+                </code>
+                <p>Можно также использовать функцию abs() для модуля числа: <code>if 10 <= abs(number) <= 99</code></p>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 4: Сложные условия</strong></p>
+                <p>Для проверки "положительное И чётное" используй and:</p>
+                <code>
+                    if number > 0 and number % 2 == 0:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Отличное число!")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🎯 Пример работы программы (продвинутый уровень):</strong></p>
+                <code>
+                    Введите число: 42<br>
+                    Плюс<br>
+                    Чётное<br>
+                    Отличное число!<br>
+                    <br>
+                    Введите число: -15<br>
+                    Минус<br>
+                    Нечётное<br>
+                    Интересное число...<br>
+                    Двузначное число
+                </code>
+            </div>
+
+            <div class="note">
+                <p>🧪 <strong>Для тестирования:</strong> Попробуй разные числа:</p>
+                <ul>
+                    <li>0 (проверка нуля)</li>
+                    <li>7 (положительное нечётное)</li>
+                    <li>-4 (отрицательное чётное)</li>
+                    <li>25 (положительное нечётное двузначное)</li>
+                    <li>100 (положительное чётное трёхзначное)</li>
+                </ul>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🔍 Если программа не работает:</strong></p>
+                <ul>
+                    <li>Проверь, везде ли стоят двоеточия после if, elif, else</li>
+                    <li>Проверь отступы — все команды внутри if должны быть сдвинуты одинаково</li>
+                    <li>Убедись, что используешь == для сравнения, а не =</li>
+                    <li>Проверь, преобразовал ли ты введенное число в int</li>
+                </ul>
+            </div>
+        </div>
+    `
+},
+            4: {
+    title: "Урок 4: Циклы for и while",
+    theory: `
+        <div class="theory-section">
+            <h3>📚 Циклы: когда нужно повторять</h3>
+            <p>Представь, что тебе нужно написать программу, которая выводит числа от 1 до 100. Писать 100 раз print() — это долго и скучно. Именно для таких случаев существуют циклы! Они позволяют выполнять один и тот же блок кода множество раз.</p>
+            
+            <h4>Цикл for — для известного количества повторений</h4>
+            <p>Цикл <strong>for</strong> используется, когда мы точно знаем, сколько раз нужно повторить действие. Чаще всего он используется с функцией <strong>range()</strong>.</p>
+            
+            <div class="code-block">
+                <pre>
+# range(5) создает последовательность чисел: 0, 1, 2, 3, 4
+for i in range(5):
+    print("Номер:", i)
+    print("Квадрат числа:", i ** 2)
+    print("---")
+
+# Результат:
+# Номер: 0, Квадрат: 0
+# Номер: 1, Квадрат: 1
+# Номер: 2, Квадрат: 4
+# Номер: 3, Квадрат: 9
+# Номер: 4, Квадрат: 16
+                </pre>
+            </div>
+
+            <h4>Разные способы использования range()</h4>
+            <p>Функция range() очень гибкая и может принимать разные параметры:</p>
+            
+            <ul>
+                <li><code>range(5)</code> — числа от 0 до 4 (5 чисел, начинается с 0)</li>
+                <li><code>range(2, 7)</code> — числа от 2 до 6 (с 2 до 7, не включая 7)</li>
+                <li><code>range(1, 10, 2)</code> — числа от 1 до 9 с шагом 2: 1, 3, 5, 7, 9</li>
+                <li><code>range(10, 0, -1)</code> — числа от 10 до 1 в обратном порядке: 10, 9, 8, ..., 1</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>
+# Примеры разных range()
+print("От 0 до 4:")
+for i in range(5):
+    print(i, end=" ")  # end=" " означает, что не переходить на новую строку
+print()
+
+print("От 2 до 6:")
+for i in range(2, 7):
+    print(i, end=" ")
+print()
+
+print("Нечетные от 1 до 9:")
+for i in range(1, 10, 2):
+    print(i, end=" ")
+print()
+
+print("Обратный отсчет:")
+for i in range(5, 0, -1):
+    print(i, "секунд")
+print("Пуск!")
+                </pre>
+            </div>
+
+            <h4>Цикл while — пока условие верно</h4>
+            <p>Цикл <strong>while</strong> используется, когда мы не знаем точно, сколько раз нужно повторять, но знаем условие, при котором нужно продолжать.</p>
+
+            <div class="code-block">
+                <pre>
+# Простой счетчик
+count = 5
+while count > 0:
+    print("Осталось секунд:", count)
+    count -= 1  # уменьшаем на 1 (обязательно! иначе цикл будет бесконечным)
+print("Пуск!")
+
+# Игра: угадай число
+secret = 7
+guess = -1
+while guess != secret:
+    guess = int(input("Угадай число от 1 до 10: "))
+    if guess < secret:
+        print("Больше!")
+    elif guess > secret:
+        print("Меньше!")
+print("Поздравляю! Ты угадал!")
+                </pre>
+            </div>
+
+            <div class="note">
+                <p>⚠️ <strong>Осторожно! Бесконечный цикл</strong></p>
+                <p>Если забыть изменять переменную в условии, цикл будет выполняться вечно. Программа зависнет и её придется аварийно закрывать.</p>
+                <code>
+                    # НИКОГДА ТАК НЕ ДЕЛАЙ!
+                    x = 5
+                    while x > 0:
+                        print("Бесконечность")
+                        # забыли x -= 1 — цикл никогда не закончится
+                </code>
+            </div>
+
+            <h4>Важные команды для управления циклами</h4>
+            
+            <ul>
+                <li><strong>break</strong> — немедленно завершает цикл</li>
+                <li><strong>continue</strong> — переходит к следующей итерации (пропускает остаток кода)</li>
+                <li><strong>else</strong> — выполняется, если цикл завершился без break</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>
+# break — выход из цикла
+for i in range(10):
+    if i == 5:
+        print("Нашли 5, останов")
+        break
+    print(i)
+# Выведет: 0,1,2,3,4
+
+# continue — пропуск итерации
+for i in range(10):
+    if i % 2 == 0:  # если число четное
+        continue    # пропускаем
+    print(i)        # печатаем только нечетные: 1,3,5,7,9
+
+# else в цикле
+for i in range(3):
+    password = input("Введи пароль: ")
+    if password == "secret":
+        print("Доступ разрешен")
+        break
+else:
+    print("Доступ заблокирован (3 попытки истекли)")
+# else выполнится, только если break не сработал
+                </pre>
+            </div>
+
+            <h4>Вложенные циклы</h4>
+            <p>Циклы можно вкладывать друг в друга. Например, для таблицы умножения:</p>
+
+            <div class="code-block">
+                <pre>
+# Таблица умножения от 2 до 5
+for i in range(2, 6):
+    print(f"Таблица умножения на {i}:")
+    for j in range(1, 11):
+        print(f"{i} x {j} = {i*j}")
+    print("---")
+                </pre>
+            </div>
+
+            <h4>Сравнение for и while</h4>
+            <table style="width:100%; border-collapse: collapse; margin:15px 0;">
+                <tr style="background:#667eea; color:white;">
+                    <th style="padding:10px; border:1px solid #ddd;">for</th>
+                    <th style="padding:10px; border:1px solid #ddd;">while</th>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border:1px solid #ddd;">Используем, когда знаем количество повторений</td>
+                    <td style="padding:10px; border:1px solid #ddd;">Используем, когда есть условие продолжения</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border:1px solid #ddd;">for i in range(10):</td>
+                    <td style="padding:10px; border:1px solid #ddd;">while x < 10:</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border:1px solid #ddd;">Счетчик создается автоматически</td>
+                    <td style="padding:10px; border:1px solid #ddd;">Счетчик нужно создавать и изменять вручную</td>
+                </tr>
+            </table>
+
+            <div class="note">
+                <p>🎯 <strong>Правило выбора:</strong></p>
+                <ul>
+                    <li><strong>for</strong> — если знаешь, сколько раз нужно повторить (перебираем диапазон)</li>
+                    <li><strong>while</strong> — если повторяешь, пока выполняется условие (например, пока пользователь не ввел правильный ответ)</li>
+                </ul>
+            </div>
+
+            <h4>Типичные ошибки</h4>
+            <ul>
+                <li><strong>Забыл двоеточие</strong> — после for и while обязательно двоеточие</li>
+                <li><strong>Бесконечный цикл в while</strong> — забыл изменить переменную в условии</li>
+                <li><strong>Неправильные отступы</strong> — код внутри цикла должен быть с отступом</li>
+                <li><strong>Путаница с range</strong> — range(5) дает 0-4, а не 1-5</li>
+            </ul>
+        </div>
+    `,
+    practice: `
+        <div class="practice-task">
+            <h4>🧪 Практическое задание: "Таблицы умножения"</h4>
+            <p>Создай программу, которая выводит таблицы умножения для разных чисел.</p>
+            
+            <h4>Базовый уровень (обязательно):</h4>
+            <ol>
+                <li>Используя цикл for, выведи таблицу умножения для числа 7 (от 1 до 10)</li>
+                <li>Формат вывода: "7 x 1 = 7", "7 x 2 = 14" и так далее</li>
+            </ol>
+
+            <h4>Средний уровень (добавь к базовому):</h4>
+            <ol start="3">
+                <li>Запроси у пользователя число, для которого вывести таблицу умножения</li>
+                <li>Запроси, до какого числа умножать (например, до 15)</li>
+                <li>Выведи таблицу в красивом формате с разделителями</li>
+            </ol>
+
+            <h4>Продвинутый уровень (для самых смелых):</h4>
+            <ol start="6">
+                <li>Выведи таблицу умножения для всех чисел от 2 до 9 (вложенные циклы)</li>
+                <li>Сделай так, чтобы таблицы выводились в виде сетки, как в школьной тетради</li>
+                <li>Добавь цикл while, который спрашивает пользователя: "Хотите еще одну таблицу? (да/нет)" и продолжает работу, пока пользователь не ответит "нет"</li>
+            </ol>
+            
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 1: Базовая таблица умножения</strong></p>
+                <code>
+                    number = 7<br>
+                    for i in range(1, 11):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;result = number * i<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(number, "x", i, "=", result)
+                </code>
+                <p>Или более красивый вариант с f-строкой:</p>
+                <code>
+                    print(f"{number} x {i} = {number * i}")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 2: С запросом у пользователя</strong></p>
+                <code>
+                    number = int(input("Введите число: "))<br>
+                    limit = int(input("До какого числа умножать? "))<br>
+                    <br>
+                    print(f"Таблица умножения на {number}:")<br>
+                    print("=" * 20)<br>
+                    for i in range(1, limit + 1):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"{number} x {i:2} = {number * i:3}")<br>
+                    print("=" * 20)
+                </code>
+                <p><small>:2 и :3 выравнивают числа для красоты</small></p>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 3: Вложенные циклы для всех таблиц</strong></p>
+                <code>
+                    for num in range(2, 10):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"\\nТаблица умножения на {num}:")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;for i in range(1, 11):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"{num} x {i:2} = {num * i:3}")
+                </code>
+                <p>\\n создает пустую строку между таблицами</p>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 4: Цикл while для повторения</strong></p>
+                <code>
+                    while True:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;# здесь твоя программа с таблицей<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;answer = input("Хотите еще таблицу? (да/нет): ")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if answer.lower() == "нет":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("До свидания!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break
+                </code>
+                <p>.lower() преобразует ответ в нижний регистр, чтобы "Нет" и "нет" работали одинаково</p>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🎯 Пример работы (продвинутый уровень):</strong></p>
+                <code>
+                    Таблица умножения на 2:<br>
+                    2 x  1 =   2<br>
+                    2 x  2 =   4<br>
+                    ...<br>
+                    2 x 10 =  20<br>
+                    <br>
+                    Таблица умножения на 3:<br>
+                    3 x  1 =   3<br>
+                    ...<br>
+                    <br>
+                    Хотите еще таблицу? (да/нет): да<br>
+                    Введите число: 15<br>
+                    До какого числа умножать? 5<br>
+                    15 x 1 = 15<br>
+                    ...<br>
+                    Хотите еще таблицу? (да/нет): нет<br>
+                    До свидания!
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 5: Красивое форматирование</strong></p>
+                <p>Для ровных столбцов используй f-строки с выравниванием:</p>
+                <code>
+                    print(f"{number} x {i:2} = {number*i:3}")<br>
+                    # :2 означает "занять 2 символа" (для выравнивания по правому краю)
+                </code>
+                <p>Для разделителей используй умножение строк:</p>
+                <code>
+                    print("=" * 30)  # выведет 30 знаков равно
+                </code>
+            </div>
+
+            <div class="note">
+                <p>🧪 <strong>Для тестирования:</strong></p>
+                <ul>
+                    <li>Проверь с числом 7 (классика)</li>
+                    <li>Проверь с числом 1 (особый случай)</li>
+                    <li>Проверь с числом 0 (интересно, что получится)</li>
+                    <li>Проверь с большим пределом, например до 20</li>
+                </ul>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🔍 Если программа не работает:</strong></p>
+                <ul>
+                    <li>Проверь, есть ли двоеточие в конце строк for и while</li>
+                    <li>Проверь отступы — все строки внутри цикла должны быть сдвинуты</li>
+                    <li>В цикле while не забудь изменять переменную, иначе будет бесконечный цикл</li>
+                    <li>range(1, 11) дает числа от 1 до 10, а range(10) — от 0 до 9</li>
+                </ul>
+            </div>
+        </div>
+    `
+},
+            5: {
+    title: "Урок 5: Функции",
+    theory: `
+        <div class="theory-section">
+            <h3>📚 Функции: создаем свои команды</h3>
+            <p>Представь, что ты каждый день готовишь бутерброд. Каждый раз ты берешь хлеб, масло, сыр — это одни и те же действия. Было бы удобно один раз записать рецепт и просто говорить "сделай бутерброд", когда нужно. В программировании эту роль выполняют <strong>функции</strong>!</p>
+            
+            <h4>Зачем нужны функции?</h4>
+            <ul>
+                <li><strong>Не повторяться (DRY — Don't Repeat Yourself)</strong> — написал код один раз, используй много раз</li>
+                <li><strong>Удобство чтения</strong> — программа разбита на понятные блоки</li>
+                <li><strong>Легко исправлять ошибки</strong> — исправил в одном месте, исправилось везде</li>
+                <li><strong>Можно использовать чужие функции</strong> — например, мы уже использовали print(), input(), range()</li>
+            </ul>
+
+            <h4>Создание функции</h4>
+            <p>Функция создается с помощью ключевого слова <strong>def</strong>, затем идет имя функции, круглые скобки и двоеточие.</p>
+            
+            <div class="code-block">
+                <pre>
+def greet(name):
+    """Эта функция приветствует пользователя"""  # это docstring (документация)
+    print("Привет,", name)
+    print("Рады тебя видеть!")
+
+# Вызов функции (использование)
+greet("Анна")
+greet("Максим")
+greet("Елена")
+                </pre>
+            </div>
+
+            <h4>Параметры и аргументы</h4>
+            <ul>
+                <li><strong>Параметры</strong> — переменные в определении функции (то, что функция ожидает получить)</li>
+                <li><strong>Аргументы</strong> — значения, которые мы передаем при вызове</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>
+# name и age — это параметры
+def introduce(name, age):
+    print(f"Меня зовут {name}, мне {age} лет")
+
+# "Анна" и 15 — это аргументы
+introduce("Анна", 15)
+introduce(age=16, name="Максим")  # можно указывать по имени
+                </pre>
+            </div>
+
+            <h4>Возврат значения (return)</h4>
+            <p>Функции могут не просто печатать, но и возвращать результат для дальнейшего использования. Для этого используется <strong>return</strong>.</p>
+
+            <div class="code-block">
+                <pre>
+def add(a, b):
+    """Возвращает сумму двух чисел"""
+    result = a + b
+    return result
+
+# Использование
+sum1 = add(5, 3)        # sum1 = 8
+sum2 = add(10, 20)      # sum2 = 30
+print("Суммы:", sum1, sum2)
+
+# Можно сразу использовать результат
+print("Результат:", add(100, 50))
+
+# return можно использовать для досрочного выхода
+def check_age(age):
+    if age < 0:
+        return "Ошибка: возраст не может быть отрицательным"
+    if age >= 18:
+        return "Взрослый"
+    else:
+        return "Ребенок"
+                </pre>
+            </div>
+
+            <div class="note">
+                <p>⚠️ <strong>Важно!</strong> После return функция завершает работу. Код после return не выполняется:</p>
+                <code>
+                    def test():<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return 42<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Это никогда не выведется")  # ❌ не выполнится
+                </code>
+            </div>
+
+            <h4>Параметры по умолчанию</h4>
+            <p>Можно задать значения параметров, которые будут использоваться, если аргумент не передан:</p>
+
+            <div class="code-block">
+                <pre>
+def power(number, exponent=2):
+    """Возводит число в степень (по умолчанию в квадрат)"""
+    return number ** exponent
+
+print(power(5))      # 25 (5 в квадрате)
+print(power(5, 3))   # 125 (5 в кубе)
+print(power(2, 10))  # 1024 (2 в 10 степени)
+
+def greet_user(name="Гость"):
+    print(f"Добро пожаловать, {name}!")
+
+greet_user()           # Добро пожаловать, Гость!
+greet_user("Анна")     # Добро пожаловать, Анна!
+                </pre>
+            </div>
+
+            <h4>Несколько возвращаемых значений</h4>
+            <p>Функция может возвращать несколько значений через запятую:</p>
+
+            <div class="code-block">
+                <pre>
+def get_stats(numbers):
+    """Принимает список чисел, возвращает сумму и количество"""
+    total = sum(numbers)
+    count = len(numbers)
+    return total, count  # возвращает кортеж (пару значений)
+
+nums = [10, 20, 30, 40]
+summa, kolvo = get_stats(nums)  # распаковываем результат
+print(f"Сумма: {summa}, Количество: {kolvo}")
+                </pre>
+            </div>
+
+            <h4>Область видимости переменных</h4>
+            <p>Переменные внутри функции существуют только внутри неё. Снаружи они не видны.</p>
+
+            <div class="code-block">
+                <pre>
+x = 10  # глобальная переменная (видна везде)
+
+def my_func():
+    y = 5  # локальная переменная (видна только внутри функции)
+    print(x)  # можно прочитать глобальную
+    print(y)  # можно прочитать локальную
+
+my_func()
+print(x)  # ✅ работает
+print(y)  # ❌ Ошибка! NameError: name 'y' is not defined
+                </pre>
+            </div>
+
+            <h4>Документирование функций (docstring)</h4>
+            <p>Хороший тон — описывать, что делает функция:</p>
+
+            <div class="code-block">
+                <pre>
+def calculate_bmi(weight, height):
+    """
+    Рассчитывает индекс массы тела (BMI).
+    
+    Параметры:
+    weight — вес в килограммах (float)
+    height — рост в метрах (float)
+    
+    Возвращает:
+    float — индекс массы тела
+    """
+    return weight / (height ** 2)
+
+# Можно посмотреть документацию
+help(calculate_bmi)  # выведет docstring
+                </pre>
+            </div>
+
+            <h4>Типичные ошибки</h4>
+            <ul>
+                <li><strong>Забыл двоеточие</strong> — после def обязательно двоеточие</li>
+                <li><strong>Забыл return</strong> — функция без return возвращает None</li>
+                <li><strong>Пытаешься использовать локальную переменную снаружи</strong> — они видны только внутри</li>
+                <li><strong>Изменяешь глобальные переменные внутри функции</strong> — без global это создает новую локальную</li>
+                <li><strong>Путаешь параметры и аргументы</strong> — параметры при определении, аргументы при вызове</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>
+# Пример с None
+def no_return():
+    x = 42
+    # нет return
+
+result = no_return()
+print(result)  # None (особое значение "ничего")
+                </pre>
+            </div>
+
+            <div class="note">
+                <p>🎯 <strong>Краткий итог:</strong></p>
+                <ul>
+                    <li>Функции создаются с <strong>def</strong></li>
+                    <li><strong>return</strong> возвращает значение из функции</li>
+                    <li>Параметры — это входные данные</li>
+                    <li>Переменные внутри функции локальны</li>
+                    <li>Функции помогают не повторять код</li>
+                </ul>
+            </div>
+        </div>
+    `,
+    practice: `
+        <div class="practice-task">
+            <h4>🧪 Практическое задание: "Калькулятор на функциях"</h4>
+            <p>Создай набор функций для математических операций.</p>
+            
+            <h4>Базовый уровень (обязательно):</h4>
+            <ol>
+                <li>Напиши функцию <strong>square(x)</strong>, которая принимает число и возвращает его квадрат (x²)</li>
+                <li>Вызови функцию для чисел 4, 7 и 10, выведи результаты</li>
+                <li>Напиши функцию <strong>cube(x)</strong>, которая возвращает куб числа (x³)</li>
+                <li>Вызови её для тех же чисел</li>
+            </ol>
+
+            <h4>Средний уровень (добавь к базовому):</h4>
+            <ol start="5">
+                <li>Напиши функцию <strong>power(x, n)</strong>, которая возводит x в степень n (используй ** или цикл)</li>
+                <li>Напиши функцию <strong>is_even(x)</strong>, которая возвращает True, если число чётное, иначе False</li>
+                <li>Напиши функцию <strong>max_of_three(a, b, c)</strong>, которая возвращает максимальное из трёх чисел</li>
+                <li>Попроси пользователя ввести три числа и выведи максимальное, используя твою функцию</li>
+            </ol>
+
+            <h4>Продвинутый уровень (для самых смелых):</h4>
+            <ol start="9">
+                <li>Создай функцию <strong>calculator()</strong>, которая:
+                    <ul>
+                        <li>Запрашивает у пользователя два числа и операцию (+, -, *, /, **)</li>
+                        <li>Вызывает соответствующую функцию (add, subtract, multiply, divide, power)</li>
+                        <li>Возвращает и выводит результат</li>
+                        <li>Работает в цикле, пока пользователь не введет "стоп"</li>
+                    </ul>
+                </li>
+                <li>Добавь обработку ошибок: если пользователь ввел не число или деление на ноль</li>
+            </ol>
+            
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 1: Базовая функция square</strong></p>
+                <code>
+                    def square(x):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"""Возвращает квадрат числа"""<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return x ** 2<br>
+                    <br>
+                    # Вызов<br>
+                    print(square(4))  # 16<br>
+                    print(square(7))  # 49<br>
+                    print(square(10)) # 100
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 2: Функция is_even</strong></p>
+                <code>
+                    def is_even(x):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"""Возвращает True, если число чётное"""<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return x % 2 == 0<br>
+                    <br>
+                    # Использование<br>
+                    if is_even(10):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Чётное")  # выведется<br>
+                    if is_even(7):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Чётное")  # не выведется
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 3: Функция max_of_three</strong></p>
+                <code>
+                    def max_of_three(a, b, c):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"""Возвращает максимальное из трёх чисел"""<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if a >= b and a >= c:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return a<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif b >= a and b >= c:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return b<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return c<br>
+                    <br>
+                    # Можно проще с помощью встроенной функции max<br>
+                    # return max(a, b, c)
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 4: Калькулятор с выбором операции</strong></p>
+                <code>
+                    def add(a, b): return a + b<br>
+                    def subtract(a, b): return a - b<br>
+                    def multiply(a, b): return a * b<br>
+                    def divide(a, b): <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if b == 0:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "Ошибка: деление на ноль"<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return a / b<br>
+                    <br>
+                    def calculator():<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;while True:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd = input("Введи операцию (+, -, *, /) или 'стоп': ")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if cmd.lower() == "стоп":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = float(input("Первое число: "))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y = float(input("Второе число: "))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if cmd == "+":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(add(x, y))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# ... и так далее
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 5: Словарь функций (для продвинутых)</strong></p>
+                <p>Можно хранить функции в словаре для более элегантного кода:</p>
+                <code>
+                    operations = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"+": lambda a, b: a + b,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"-": lambda a, b: a - b,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"*": lambda a, b: a * b,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"/": lambda a, b: a / b if b != 0 else "Ошибка"<br>
+                    }<br>
+                    <br>
+                    result = operations[cmd](x, y)
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🎯 Пример работы (продвинутый уровень):</strong></p>
+                <code>
+                    Введи операцию (+, -, *, /) или 'стоп': +<br>
+                    Первое число: 15<br>
+                    Второе число: 7<br>
+                    22.0<br>
+                    Введи операцию (+, -, *, /) или 'стоп': *<br>
+                    Первое число: 6<br>
+                    Второе число: 8<br>
+                    48.0<br>
+                    Введи операцию (+, -, *, /) или 'стоп': /<br>
+                    Первое число: 10<br>
+                    Второе число: 0<br>
+                    Ошибка: деление на ноль<br>
+                    Введи операцию (+, -, *, /) или 'стоп': стоп<br>
+                    До свидания!
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 6: Обработка ошибок с try/except</strong></p>
+                <code>
+                    try:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;x = float(input("Число: "))<br>
+                    except ValueError:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Это не число!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;x = 0
+                </code>
+            </div>
+
+            <div class="note">
+                <p>🧪 <strong>Для тестирования:</strong></p>
+                <ul>
+                    <li>Проверь square(5) = 25, square(-3) = 9</li>
+                    <li>Проверь is_even(4) = True, is_even(7) = False</li>
+                    <li>Проверь max_of_three(5, 9, 2) = 9</li>
+                    <li>Проверь деление на ноль — программа не должна падать</li>
+                </ul>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🔍 Если программа не работает:</strong></p>
+                <ul>
+                    <li>Проверь, есть ли двоеточие после определения функции</li>
+                    <li>Убедись, что используешь return, если хочешь получить значение</li>
+                    <li>Проверь отступы — весь код функции должен быть с отступом</li>
+                    <li>Не забудь вызвать функцию, просто определение её не запускает</li>
+                    <li>Имена функций должны быть уникальными (не создавай две функции с одним именем)</li>
+                </ul>
+            </div>
+        </div>
+    `
+},
+            6: {
+    title: "Урок 6: Строки и методы",
+    theory: `
+        <div class="theory-section">
+            <h3>📚 Строки: работа с текстом</h3>
+            <p>В программировании текст называется <strong>строкой</strong> (string). Строки окружают нас везде: имена пользователей, сообщения, пароли, названия фильмов — всё это строки. Python предоставляет множество удобных инструментов для работы с текстом.</p>
+            
+            <h4>Что такое строка?</h4>
+            <p>Строка — это последовательность символов, заключенная в кавычки. Можно использовать одинарные ('), двойные (") или тройные кавычки для многострочного текста.</p>
+            
+            <div class="code-block">
+                <pre>
+# Разные способы создания строк
+name = 'Анна'
+message = "Привет, мир!"
+multiline = """Это
+многострочный
+текст"""
+empty = ""  # пустая строка
+
+# Строки можно складывать (конкатенация)
+first = "Python"
+second = "рок!"
+result = first + " " + second  # "Python рок!"
+print(result)
+
+# Строки можно умножать на число
+print("Привет! " * 3)  # "Привет! Привет! Привет! "
+                </pre>
+            </div>
+
+            <h4>Индексы и срезы строк</h4>
+            <p>К каждому символу строки можно обратиться по его номеру (индексу). Нумерация начинается с 0!</p>
+            
+            <div class="code-block">
+                <pre>
+text = "Python"
+# Индексы:  P(0) y(1) t(2) h(3) o(4) n(5)
+
+print(text[0])  # 'P' - первый символ
+print(text[2])  # 't' - третий символ
+print(text[-1]) # 'n' - последний символ
+print(text[-2]) # 'o' - предпоследний
+
+# Срезы [start:end] - от start до end-1
+print(text[1:4])   # 'yth' (с 1 по 3)
+print(text[:3])    # 'Pyt' (с начала до индекса 2)
+print(text[3:])    # 'hon' (с индекса 3 до конца)
+print(text[::2])   # 'Pto' (каждый второй символ)
+print(text[::-1])  # 'nohtyP' (развернуть строку)
+                </pre>
+            </div>
+
+            <div class="note">
+                <p>🔍 <strong>Важно!</strong> Строки в Python <strong>неизменяемы</strong> (immutable). Ты не можешь изменить отдельный символ:</p>
+                <code>
+                    text = "Python"<br>
+                    text[0] = "J"  # ❌ Ошибка!<br>
+                    # Нужно создавать новую строку
+                </code>
+            </div>
+
+            <h4>Основные методы строк</h4>
+            <p>Методы — это функции, которые привязаны к объекту. Они вызываются через точку после строки.</p>
+
+            <h4>1. Изменение регистра</h4>
+            <div class="code-block">
+                <pre>
+text = "PyThOn RoCkS!"
+
+print(text.upper())      # "PYTHON ROCKS!" - все заглавные
+print(text.lower())      # "python rocks!" - все строчные
+print(text.capitalize()) # "Python rocks!" - первая заглавная, остальные строчные
+print(text.title())      # "Python Rocks!" - первая буква каждого слова заглавная
+print(text.swapcase())   # "pYtHoN rOcKs!" - меняет регистр на противоположный
+                </pre>
+            </div>
+
+            <h4>2. Удаление пробелов</h4>
+            <div class="code-block">
+                <pre>
+text = "   привет   "
+
+print(text.strip())   # "привет" - удаляет пробелы в начале и конце
+print(text.lstrip())  # "привет   " - удаляет слева
+print(text.rstrip())  # "   привет" - удаляет справа
+
+# Можно удалять не только пробелы
+text2 = "---Привет---"
+print(text2.strip("-"))  # "Привет"
+                </pre>
+            </div>
+
+            <h4>3. Поиск и замена</h4>
+            <div class="code-block">
+                <pre>
+text = "Привет, как дела? Привет, как жизнь?"
+
+# Поиск
+print(text.find("как"))      # 8 (индекс начала первого вхождения)
+print(text.find("пока"))     # -1 (не найдено)
+print(text.rfind("Привет"))  # 21 (поиск справа)
+print(text.count("Привет"))  # 2 (сколько раз встречается)
+
+# Проверка наличия
+print("как" in text)         # True
+print("пока" in text)        # False
+
+# Замена
+new_text = text.replace("Привет", "Здравствуй")
+print(new_text)  # "Здравствуй, как дела? Здравствуй, как жизнь?"
+print(text.replace(" ", "_"))  # замена пробелов на подчеркивания
+                </pre>
+            </div>
+
+            <h4>4. Проверка содержимого строки</h4>
+            <div class="code-block">
+                <pre>
+text1 = "Python123"
+text2 = "Привет"
+text3 = "123"
+text4 = "   "
+
+print(text1.isalpha())  # False (есть цифры)
+print(text2.isalpha())  # True (только буквы)
+print(text3.isdigit())  # True (только цифры)
+print(text4.isspace())  # True (только пробелы)
+print(text1.isalnum())  # True (буквы и цифры)
+
+# Проверка регистра
+print("HELLO".isupper())  # True
+print("hello".islower())  # True
+print("Hello".istitle())  # True (каждое слово с большой)
+                </pre>
+            </div>
+
+            <h4>5. Разделение и объединение</h4>
+            <div class="code-block">
+                <pre>
+# split() - разбивает строку на список
+text = "яблоко,банан,апельсин"
+fruits = text.split(",")  # ['яблоко', 'банан', 'апельсин']
+print(fruits)
+
+words = "Привет как дела".split()  # ['Привет', 'как', 'дела']
+print(words)
+
+# join() - объединяет список в строку
+new_text = " - ".join(fruits)  # "яблоко - банан - апельсин"
+print(new_text)
+
+# Разбиение на строки
+poem = "Первая строка\nВторая строка\nТретья строка"
+lines = poem.split("\\n")  # или poem.splitlines()
+print(lines)
+                </pre>
+            </div>
+
+            <h4>6. Полезные функции для строк</h4>
+            <div class="code-block">
+                <pre>
+text = "Python"
+
+# len() - длина строки (количество символов)
+print(len(text))  # 6
+
+# ord() - код символа (Unicode)
+print(ord('A'))   # 65
+print(ord('а'))   # 1072
+
+# chr() - символ по коду
+print(chr(65))    # 'A'
+
+# str() - преобразование в строку
+number = 42
+text = str(number)  # "42"
+                </pre>
+            </div>
+
+            <h4>7. Форматирование строк</h4>
+            <p>Есть несколько способов вставлять значения в строки:</p>
+
+            <div class="code-block">
+                <pre>
+name = "Максим"
+age = 15
+height = 1.75
+
+# Старый способ (%)
+print("Меня зовут %s, мне %d лет, рост %.2f м" % (name, age, height))
+
+# Метод format()
+print("Меня зовут {}, мне {} лет".format(name, age))
+
+# f-строки (современный способ, Python 3.6+) - самый удобный!
+print(f"Меня зовут {name}, мне {age} лет, рост {height:.2f} м")
+print(f"Через 5 лет мне будет {age + 5} лет")
+print(f"Квадрат числа {age} равен {age**2}")
+                </pre>
+            </div>
+
+            <div class="note">
+                <p>✨ <strong>F-строки — твой лучший друг!</strong> Они делают код чистым и понятным. Всегда используй их для вставки переменных в текст.</p>
+            </div>
+
+            <h4>Экранирование специальных символов</h4>
+            <p>Некоторые символы нужно экранировать (ставить перед ними \):</p>
+
+            <div class="code-block">
+                <pre>
+# \\n - новая строка
+print("Первая строка\\nВторая строка")
+
+# \\t - табуляция (отступ)
+print("Имя:\\tАнна")
+
+# \\\\ - обратный слеш
+print("C:\\\\Users\\\\Name")
+
+# Кавычки внутри строки
+print("Он сказал: \\"Привет!\\"")
+print('Он сказал: "Привет!"')  # или использовать разные кавычки
+                </pre>
+            </div>
+
+            <h4>Типичные ошибки</h4>
+            <ul>
+                <li><strong>Забыл, что строки неизменяемы</strong> — нельзя изменить символ по индексу</li>
+                <li><strong>Путаница с индексами</strong> — помни, что нумерация с 0</li>
+                <li><strong>Сравнение с None</strong> — пустая строка "" не равна None</li>
+                <li><strong>Пробелы в начале/конце</strong> — используй strip() для их удаления</li>
+                <li><strong>Регистр при сравнении</strong> — "Python" != "python"</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>
+# Пример ошибки с регистром
+password = "Secret123"
+if password == "secret123":  # ❌ не совпадет из-за регистра
+    print("OK")
+
+# Правильно: привести к одному регистру
+if password.lower() == "secret123":  # ✅
+    print("OK")
+                </pre>
+            </div>
+        </div>
+    `,
+    practice: `
+        <div class="practice-task">
+            <h4>🧪 Практическое задание: "Анализатор текста"</h4>
+            <p>Создай программу, которая анализирует введенный пользователем текст.</p>
+            
+            <h4>Базовый уровень (обязательно):</h4>
+            <ol>
+                <li>Попроси пользователя ввести предложение (любой текст)</li>
+                <li>Выведи:
+                    <ul>
+                        <li>Длину строки (сколько символов, включая пробелы) — используй len()</li>
+                        <li>Текст в верхнем регистре — .upper()</li>
+                        <li>Текст, где все пробелы заменены на "_" — .replace(" ", "_")</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>Средний уровень (добавь к базовому):</h4>
+            <ol start="3">
+                <li>Выведи:
+                    <ul>
+                        <li>Текст в нижнем регистре</li>
+                        <li>Текст без пробелов в начале и конце — .strip()</li>
+                        <li>Первый символ текста</li>
+                        <li>Последний символ текста</li>
+                        <li>Сколько раз встречается буква "а" (русская или английская)</li>
+                        <li>Слово "Python" есть в тексте? (True/False)</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>Продвинутый уровень (для самых смелых):</h4>
+            <ol start="4">
+                <li>Создай программу, которая:
+                    <ul>
+                        <li>Запрашивает у пользователя многострочный текст (до пустой строки)</li>
+                        <li>Выводит статистику:
+                            <ul>
+                                <li>Всего символов (с пробелами и без)</li>
+                                <li>Количество строк</li>
+                                <li>Количество слов</li>
+                                <li>Самое длинное слово</li>
+                                <li>Среднюю длину слова</li>
+                            </ul>
+                        </li>
+                        <li>Спрашивает, что заменить в тексте, и выполняет замену</li>
+                        <li>Выводит результат в красивом форматированном виде с помощью f-строк</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 1: Базовая структура</strong></p>
+                <code>
+                    text = input("Введите предложение: ")<br>
+                    <br>
+                    print(f"Длина строки: {len(text)} символов")<br>
+                    print(f"Верхний регистр: {text.upper()}")<br>
+                    print(f"Пробелы заменены: {text.replace(' ', '_')}")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 2: Первый и последний символ</strong></p>
+                <code>
+                    if text:  # проверяем, что строка не пустая<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"Первый символ: '{text[0]}'")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"Последний символ: '{text[-1]}'")<br>
+                    else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Строка пуста")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 3: Подсчет буквы "а"</strong></p>
+                <code>
+                    count_a = text.lower().count('а')  # русская<br>
+                    count_a += text.lower().count('a')  # английская<br>
+                    print(f"Буква 'а' встречается {count_a} раз(а)")
+                </code>
+                <p>Или для любой буквы:</p>
+                <code>
+                    letter = input("Какую букву посчитать? ")<br>
+                    count = text.lower().count(letter.lower())<br>
+                    print(f"Буква '{letter}' встречается {count} раз(а)")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 4: Многострочный ввод</strong></p>
+                <code>
+                    print("Введите текст (пустая строка для завершения):")<br>
+                    lines = []<br>
+                    while True:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;line = input()<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if line == "":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;lines.append(line)<br>
+                    <br>
+                    full_text = "\\n".join(lines)<br>
+                    print(f"\\nВы ввели {len(lines)} строк")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 5: Анализ текста</strong></p>
+                <code>
+                    words = full_text.split()  # разбиваем на слова<br>
+                    word_count = len(words)<br>
+                    char_count = len(full_text)<br>
+                    char_no_spaces = len(full_text.replace(" ", ""))<br>
+                    <br>
+                    # Самое длинное слово<br>
+                    longest_word = max(words, key=len) if words else "нет слов"<br>
+                    <br>
+                    # Средняя длина слова<br>
+                    if word_count > 0:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;avg_length = sum(len(word) for word in words) / word_count<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"Средняя длина слова: {avg_length:.1f}")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 6: Замена текста</strong></p>
+                <code>
+                    old = input("Что заменить? ")<br>
+                    new = input("На что заменить? ")<br>
+                    new_text = full_text.replace(old, new)<br>
+                    print("\\nРезультат замены:")<br>
+                    print(new_text)
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🎯 Пример работы (продвинутый уровень):</strong></p>
+                <code>
+                    Введите текст (пустая строка для завершения):<br>
+                    Python - отличный язык программирования!<br>
+                    Я учу Python уже 2 месяца.<br>
+                    Мне очень нравится.<br>
+                    <br>
+                    Вы ввели 3 строк<br>
+                    <br>
+                    === СТАТИСТИКА ===<br>
+                    Всего символов (с пробелами): 82<br>
+                    Всего символов (без пробелов): 66<br>
+                    Количество слов: 12<br>
+                    Самое длинное слово: "программирования!" (16 символов)<br>
+                    Средняя длина слова: 5.5<br>
+                    <br>
+                    Что заменить? Python<br>
+                    На что заменить? Java<br>
+                    <br>
+                    Результат замены:<br>
+                    Java - отличный язык программирования!<br>
+                    Я учу Java уже 2 месяца.<br>
+                    Мне очень нравится.
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 7: Красивое форматирование</strong></p>
+                <code>
+                    print("=" * 40)<br>
+                    print("АНАЛИЗ ТЕКСТА".center(40))<br>
+                    print("=" * 40)<br>
+                    print(f"{'Показатель':20} | {'Значение':>15}")<br>
+                    print("-" * 40)<br>
+                    print(f"{'Длина строки':20} | {len(text):>15}")<br>
+                    print(f"{'Количество слов':20} | {word_count:>15}")<br>
+                    print("=" * 40)
+                </code>
+                <p>.center(40) выравнивает по центру, :>15 выравнивает по правому краю</p>
+            </div>
+
+            <div class="note">
+                <p>🧪 <strong>Для тестирования:</strong></p>
+                <ul>
+                    <li>"Привет, мир!" (проверь длину и регистр)</li>
+                    <li>"   Python   " (проверь strip)</li>
+                    <li>"абракадабра" (посчитай буквы 'а')</li>
+                    <li>Многострочный текст из 3-4 строк</li>
+                </ul>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🔍 Если программа не работает:</strong></p>
+                <ul>
+                    <li>Проверь, что методы строк вызываются с круглыми скобками: .upper(), а не .upper</li>
+                    <li>Помни, что строки неизменяемы — методы возвращают новые строки</li>
+                    <li>При сравнении учитывай регистр или используй .lower()</li>
+                    <li>Проверь индексы: len(text) дает длину, последний индекс len(text)-1</li>
+                </ul>
+            </div>
+        </div>
+    `
+},
+            // ========== НОВЫЙ УРОК 7: Списки и индексация ==========
+            7: {
+    title: "Урок 7: Списки и индексация",
+    theory: `
+        <div class="theory-section">
+            <h3>📚 Списки: храним коллекции данных</h3>
+            <p>Представь, что тебе нужно хранить список покупок, имена друзей или оценки за четверть. Использовать отдельную переменную для каждого элемента — неудобно. Для таких случаев в Python есть <strong>списки (lists)</strong>!</p>
+            
+            <h4>Что такое список?</h4>
+            <p>Список — это упорядоченная коллекция элементов. Элементы могут быть любого типа: числа, строки, булевы значения и даже другие списки. Список создается с помощью квадратных скобок []</p>
+            
+            <div class="code-block">
+                <pre>
+# Создание списков
+fruits = ["яблоко", "банан", "апельсин"]      # список строк
+numbers = [1, 2, 3, 4, 5]                      # список чисел
+mixed = [10, "привет", True, 3.14]             # смешанный список
+empty = []                                      # пустой список
+nested = [[1, 2], [3, 4], [5, 6]]              # список списков
+
+print(fruits)
+print(numbers)
+print(mixed)
+                </pre>
+            </div>
+
+            <h4>Доступ к элементам по индексу</h4>
+            <p>К каждому элементу списка можно обратиться по его номеру (индексу). Важно помнить: <strong>нумерация начинается с 0!</strong></p>
+            
+            <div class="code-block">
+                <pre>
+fruits = ["яблоко", "банан", "апельсин", "груша", "киви"]
+# Индексы:     0        1         2        3       4
+# Отрицательные: -5     -4       -3       -2      -1
+
+# Положительные индексы (с начала)
+print(fruits[0])   # "яблоко"  (первый элемент)
+print(fruits[2])   # "апельсин" (третий элемент)
+print(fruits[4])   # "киви"    (пятый элемент)
+
+# Отрицательные индексы (с конца)
+print(fruits[-1])  # "киви"    (последний элемент)
+print(fruits[-2])  # "груша"   (предпоследний)
+print(fruits[-5])  # "яблоко"  (первый элемент)
+
+# Изменение элементов
+fruits[1] = "манго"  # заменяем "банан" на "манго"
+print(fruits)  # ['яблоко', 'манго', 'апельсин', 'груша', 'киви']
+                </pre>
+            </div>
+
+            <div class="note">
+                <p>⚠️ <strong>Важно!</strong> При обращении по индексу нужно быть уверенным, что элемент существует. Если индекс выходит за пределы списка, Python выдаст ошибку IndexError.</p>
+                <code>
+                    fruits = ["яблоко", "банан"]<br>
+                    print(fruits[5])  # ❌ IndexError: list index out of range
+                </code>
+            </div>
+
+            <h4>Срезы (slicing)</h4>
+            <p>Срезы позволяют получать часть списка. Синтаксис: <code>list[start:end:step]</code></p>
+            
+            <div class="code-block">
+                <pre>
+nums = [10, 20, 30, 40, 50, 60, 70]
+#        0   1   2   3   4   5   6
+
+# Базовые срезы
+print(nums[1:4])     # [20, 30, 40]  (с индекса 1 по индекс 3)
+print(nums[:3])      # [10, 20, 30]  (с начала до индекса 2)
+print(nums[4:])      # [50, 60, 70]  (с индекса 4 до конца)
+print(nums[:])       # [10, 20, 30, 40, 50, 60, 70] (весь список)
+
+# С шагом
+print(nums[1:6:2])   # [20, 40, 60]  (каждый второй с 1 по 5)
+print(nums[::2])     # [10, 30, 50, 70] (каждый второй)
+print(nums[::3])     # [10, 40, 70]  (каждый третий)
+
+# Отрицательный шаг (обратный порядок)
+print(nums[::-1])    # [70, 60, 50, 40, 30, 20, 10] (развернуть)
+print(nums[5:1:-1])  # [60, 50, 40, 30] (с 5 по 2 в обратном порядке)
+                </pre>
+            </div>
+
+            <h4>Основные методы списков</h4>
+            <p>Списки имеют множество полезных методов для работы с данными:</p>
+
+            <h5>1. Добавление элементов</h5>
+            <div class="code-block">
+                <pre>
+tasks = ["поесть", "поучиться"]
+
+# append() - добавляет элемент в конец списка
+tasks.append("поспать")
+print(tasks)  # ['поесть', 'поучиться', 'поспать']
+
+# insert() - вставляет элемент на указанную позицию
+tasks.insert(1, "погулять")  # вставить на позицию 1
+print(tasks)  # ['поесть', 'погулять', 'поучиться', 'поспать']
+
+# extend() - добавляет несколько элементов (другой список)
+new_tasks = ["почитать", "порисовать"]
+tasks.extend(new_tasks)
+print(tasks)  # ['поесть', 'погулять', 'поучиться', 'поспать', 'почитать', 'порисовать']
+                </pre>
+            </div>
+
+            <h5>2. Удаление элементов</h5>
+            <div class="code-block">
+                <pre>
+colors = ["красный", "зеленый", "синий", "желтый", "зеленый"]
+
+# remove() - удаляет первое вхождение элемента по значению
+colors.remove("зеленый")  # удаляет первый "зеленый"
+print(colors)  # ['красный', 'синий', 'желтый', 'зеленый']
+
+# pop() - удаляет и возвращает элемент по индексу (по умолчанию последний)
+last = colors.pop()      # удаляет последний
+print(last)              # "зеленый"
+print(colors)            # ['красный', 'синий', 'желтый']
+
+second = colors.pop(1)   # удаляет элемент с индексом 1
+print(second)            # "синий"
+print(colors)            # ['красный', 'желтый']
+
+# clear() - очищает весь список
+colors.clear()
+print(colors)  # []
+
+# del - удаляет элемент или срез
+nums = [1, 2, 3, 4, 5]
+del nums[2]     # удалить элемент с индексом 2
+print(nums)     # [1, 2, 4, 5]
+del nums[1:3]   # удалить срез
+print(nums)     # [1]
+                </pre>
+            </div>
+
+            <h5>3. Поиск и подсчет</h5>
+            <div class="code-block">
+                <pre>
+fruits = ["яблоко", "банан", "апельсин", "банан", "киви"]
+
+# index() - возвращает индекс первого вхождения
+print(fruits.index("банан"))        # 1
+print(fruits.index("апельсин"))     # 2
+# print(fruits.index("груша"))       # ValueError (не найдено)
+
+# count() - сколько раз встречается элемент
+print(fruits.count("банан"))        # 2
+print(fruits.count("яблоко"))       # 1
+print(fruits.count("груша"))        # 0
+
+# in - проверка наличия (не метод, а оператор)
+print("киви" in fruits)             # True
+print("груша" in fruits)            # False
+                </pre>
+            </div>
+
+            <h5>4. Сортировка и изменение порядка</h5>
+            <div class="code-block">
+                <pre>
+numbers = [5, 2, 8, 1, 9, 3]
+
+# sort() - сортирует список (изменяет исходный)
+numbers.sort()
+print(numbers)  # [1, 2, 3, 5, 8, 9]
+
+numbers.sort(reverse=True)  # по убыванию
+print(numbers)  # [9, 8, 5, 3, 2, 1]
+
+# reverse() - переворачивает список
+letters = ["а", "б", "в", "г"]
+letters.reverse()
+print(letters)  # ["г", "в", "б", "а"]
+
+# sorted() - возвращает новый отсортированный список (не изменяет исходный)
+nums = [3, 1, 4, 2]
+sorted_nums = sorted(nums)
+print(sorted_nums)  # [1, 2, 3, 4]
+print(nums)         # [3, 1, 4, 2] (исходный не изменился)
+                </pre>
+            </div>
+
+            <h5>5. Другие полезные методы и функции</h5>
+            <div class="code-block">
+                <pre>
+nums = [10, 20, 30, 40, 50]
+
+# len() - длина списка (количество элементов)
+print(len(nums))  # 5
+
+# sum() - сумма элементов (для чисел)
+print(sum(nums))  # 150
+
+# min() / max() - минимум и максимум
+print(min(nums))  # 10
+print(max(nums))  # 50
+
+# copy() - создает копию списка
+nums_copy = nums.copy()
+# или через срез: nums_copy = nums[:]
+
+# Проверка на пустоту
+if nums:  # если список не пустой
+    print("Список не пуст")
+
+empty = []
+if not empty:  # если список пустой
+    print("Список пуст")
+                </pre>
+            </div>
+
+            <h4>Итерация по спискам (перебор элементов)</h4>
+            <div class="code-block">
+                <pre>
+fruits = ["яблоко", "банан", "апельсин"]
+
+# Перебор элементов
+for fruit in fruits:
+    print(f"Я люблю {fruit}")
+
+# Перебор с индексами
+for i in range(len(fruits)):
+    print(f"{i+1}. {fruits[i]}")
+
+# enumerate() - получаем и индекс, и значение
+for i, fruit in enumerate(fruits):
+    print(f"{i}: {fruit}")
+                </pre>
+            </div>
+
+            <h4>Генераторы списков (list comprehension)</h4>
+            <p>Красивый способ создавать списки на основе других последовательностей:</p>
+
+            <div class="code-block">
+                <pre>
+# Квадраты чисел от 0 до 9
+squares = [x**2 for x in range(10)]
+print(squares)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+# Четные числа от 0 до 20
+evens = [x for x in range(21) if x % 2 == 0]
+print(evens)  # [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+
+# Преобразование строк
+words = ["привет", "мир", "python"]
+upper_words = [word.upper() for word in words]
+print(upper_words)  # ['ПРИВЕТ', 'МИР', 'PYTHON']
+                </pre>
+            </div>
+
+            <h4>Важные особенности списков</h4>
+            <ul>
+                <li><strong>Изменяемость</strong> — списки можно изменять (добавлять, удалять, заменять элементы)</li>
+                <li><strong>Упорядоченность</strong> — элементы хранятся в том порядке, в котором их добавили</li>
+                <li><strong>Гетерогенность</strong> — могут содержать элементы разных типов</li>
+                <li><strong>Вложенность</strong> — могут содержать другие списки</li>
+            </ul>
+
+            <div class="note">
+                <p>🎯 <strong>Совет:</strong> Если тебе нужен список, который нельзя изменять, используй кортеж (tuple): <code>colors = ("красный", "зеленый", "синий")</code></p>
+            </div>
+
+            <h4>Типичные ошибки</h4>
+            <ul>
+                <li><strong>IndexError</strong> — выход за границы списка</li>
+                <li><strong>Путаница с append и extend</strong> — append добавляет один элемент, extend добавляет элементы другого списка</li>
+                <li><strong>Изменение списка во время итерации</strong> — может привести к неожиданным результатам</li>
+                <li><strong>Копирование списков</strong> — простое присваивание создает ссылку, а не копию</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>
+# Ошибка с копированием
+list1 = [1, 2, 3]
+list2 = list1  # это не копия, это ссылка на тот же список!
+list2.append(4)
+print(list1)  # [1, 2, 3, 4]  (изменился и исходный!)
+
+# Правильное копирование
+list1 = [1, 2, 3]
+list2 = list1.copy()  # или list1[:]
+list2.append(4)
+print(list1)  # [1, 2, 3]  (не изменился)
+print(list2)  # [1, 2, 3, 4]
+                </pre>
+            </div>
+        </div>
+    `,
+    practice: `
+        <div class="practice-task">
+            <h4>🧪 Практическое задание: "Менеджер списка дел"</h4>
+            <p>Создай программу для управления списком дел на день.</p>
+            
+            <h4>Базовый уровень (обязательно):</h4>
+            <ol>
+                <li>Создай список дел на день (минимум 5 пунктов). Например: <code>tasks = ["Зарядка", "Завтрак", "Учеба", "Прогулка", "Хобби"]</code></li>
+                <li>Выведи первый и последний пункт списка, используя индексы</li>
+                <li>Измени второй пункт на что-то другое (например, "Зарядка" → "Йога")</li>
+                <li>Добавь в конец списка новый пункт "Повторить Python"</li>
+                <li>Выведи все пункты списка в формате: "Сегодня я должен: пункт1, пункт2, пункт3..."</li>
+                <li>Используя срез, выведи первые три пункта</li>
+                <li>Выведи общее количество дел (длину списка)</li>
+            </ol>
+
+            <h4>Средний уровень (добавь к базовому):</h4>
+            <ol start="8">
+                <li>Добавь возможность пользователю самому вводить дела:
+                    <ul>
+                        <li>Спроси, сколько дел он хочет добавить</li>
+                        <li>В цикле запроси каждое дело и добавь в список</li>
+                    </ul>
+                </li>
+                <li>Выведи все дела с нумерацией (начиная с 1)</li>
+                <li>Спроси, какое дело нужно удалить (по номеру), и удали его</li>
+                <li>Спроси, есть ли в списке дело "Python" (или любое другое), и выведи результат</li>
+                <li>Выведи список в алфавитном порядке (используй sort())</li>
+            </ol>
+
+            <h4>Продвинутый уровень (для самых смелых):</h4>
+            <ol start="13">
+                <li>Создай полноценный менеджер задач с меню:
+                    <ul>
+                        <li>Показать все задачи</li>
+                        <li>Добавить задачу</li>
+                        <li>Удалить задачу (по номеру или по названию)</li>
+                        <li>Отметить задачу как выполненную (создай два списка: задачи и выполненные)</li>
+                        <li>Найти задачу по ключевому слову</li>
+                        <li>Показать статистику (сколько всего, сколько выполнено)</li>
+                        <li>Выход из программы</li>
+                    </ul>
+                </li>
+                <li>Программа должна работать в цикле, пока пользователь не выберет выход</li>
+                <li>Используй генераторы списков для фильтрации задач</li>
+                <li>Сохраняй задачи в файл и загружай при старте (дополнительно)</li>
+            </ol>
+            
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 1: Базовая структура</strong></p>
+                <code>
+                    tasks = ["Зарядка", "Завтрак", "Учеба", "Прогулка", "Хобби"]<br>
+                    <br>
+                    print(f"Первый пункт: {tasks[0]}")<br>
+                    print(f"Последний пункт: {tasks[-1]}")<br>
+                    <br>
+                    tasks[1] = "Йога"  # меняем второй пункт<br>
+                    tasks.append("Повторить Python")<br>
+                    <br>
+                    print("Сегодня я должен:", ", ".join(tasks))<br>
+                    print("Первые три дела:", tasks[:3])<br>
+                    print(f"Всего дел: {len(tasks)}")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 2: Ввод дел от пользователя</strong></p>
+                <code>
+                    tasks = ["Зарядка", "Завтрак", "Учеба"]  # начальные дела<br>
+                    <br>
+                    n = int(input("Сколько дел хотите добавить? "))<br>
+                    for i in range(n):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;task = input(f"Введите дело {i+1}: ")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;tasks.append(task)<br>
+                    <br>
+                    print("\\nВаш список дел:")<br>
+                    for i, task in enumerate(tasks, 1):  # start=1<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"{i}. {task}")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 3: Удаление по номеру</strong></p>
+                <code>
+                    print("\\nТекущий список:")<br>
+                    for i, task in enumerate(tasks, 1):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"{i}. {task}")<br>
+                    <br>
+                    num = int(input("Какой номер дела удалить? "))<br>
+                    if 1 <= num <= len(tasks):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;removed = tasks.pop(num - 1)  # индекс на 1 меньше номера<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"Удалено: {removed}")<br>
+                    else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Неверный номер")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 4: Поиск задачи</strong></p>
+                <code>
+                    keyword = input("Какое дело ищем? ")<br>
+                    <br>
+                    # Поиск точного совпадения<br>
+                    if keyword in tasks:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"Дело '{keyword}' есть в списке")<br>
+                    else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Не найдено")<br>
+                    <br>
+                    # Поиск частичного совпадения (для продвинутых)<br>
+                    found = [task for task in tasks if keyword.lower() in task.lower()]<br>
+                    if found:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Найдено:", ", ".join(found))
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 5: Менеджер задач (продвинутый уровень)</strong></p>
+                <code>
+                    tasks = ["Зарядка", "Завтрак", "Учеба"]<br>
+                    completed = []<br>
+                    <br>
+                    while True:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("\\n=== МЕНЕДЖЕР ЗАДАЧ ===")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("1. Показать все задачи")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("2. Добавить задачу")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("3. Удалить задачу")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("4. Отметить как выполненную")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("5. Показать статистику")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("6. Выход")<br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;choice = input("Выбери действие: ")<br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if choice == "1":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("\\nТекущие задачи:")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for i, task in enumerate(tasks, 1):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status = "✓" if task in completed else "○"<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"{status} {i}. {task}")<br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif choice == "2":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task = input("Введи задачу: ")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tasks.append(task)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Задача добавлена!")<br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif choice == "3":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# аналогично удалению по номеру<br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif choice == "4":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = int(input("Номер выполненной задачи: "))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if 1 <= num <= len(tasks):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task = tasks[num-1]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if task not in completed:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completed.append(task)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Задача '{task}' выполнена!")<br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif choice == "5":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Всего задач: {len(tasks)}")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Выполнено: {len(completed)}")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Осталось: {len(tasks) - len(completed)}")<br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif choice == "6":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("До свидания!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 6: Генераторы списков для фильтрации</strong></p>
+                <code>
+                    # Найти все задачи, содержащие слово "Python"<br>
+                    python_tasks = [task for task in tasks if "Python" in task]<br>
+                    <br>
+                    # Найти все невыполненные задачи<br>
+                    pending = [task for task in tasks if task not in completed]<br>
+                    <br>
+                    # Получить первые буквы всех задач<br>
+                    first_letters = [task[0] for task in tasks if task]<br>
+                    print(first_letters)
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🎯 Пример работы (средний уровень):</strong></p>
+                <code>
+                    Сколько дел хотите добавить? 2<br>
+                    Введите дело 1: Купить продукты<br>
+                    Введите дело 2: Позвонить другу<br>
+                    <br>
+                    Ваш список дел:<br>
+                    1. Зарядка<br>
+                    2. Завтрак<br>
+                    3. Учеба<br>
+                    4. Купить продукты<br>
+                    5. Позвонить другу<br>
+                    6. Повторить Python<br>
+                    <br>
+                    Какой номер дела удалить? 2<br>
+                    Удалено: Завтрак<br>
+                    <br>
+                    Отсортированный список:<br>
+                    ['Зарядка', 'Купить продукты', 'Повторить Python', 'Позвонить другу', 'Учеба']
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🔍 Если программа не работает:</strong></p>
+                <ul>
+                    <li>Помни, что индексы начинаются с 0: tasks[0] — первый элемент</li>
+                    <li>При удалении по номеру, который ввел пользователь, не забудь вычесть 1</li>
+                    <li>Проверь, не выходишь ли ты за границы списка</li>
+                    <li>Используй len(tasks) для проверки длины</li>
+                    <li>При копировании списков используй .copy() или [:], а не просто =</li>
+                </ul>
+            </div>
+        </div>
+    `
+},
+            // ========== НОВЫЙ УРОК 8: Модуль random ==========
+            8: {
+    title: "Урок 8: Модуль random",
+    theory: `
+        <div class="theory-section">
+            <h3>📚 Модуль random: добавляем случайность</h3>
+            <p>Представь, что ты создаешь игру, где нужно бросать кубик, или программу, которая случайным образом выбирает фильм на вечер. Для этого нужна <strong>случайность</strong>. В Python за случайности отвечает модуль <strong>random</strong>.</p>
+            
+            <h4>Что такое модуль?</h4>
+            <p>Модуль — это набор готовых функций и инструментов, которые можно подключить к своей программе. Python поставляется с огромной коллекцией модулей: для работы с датами, файлами, интернетом и, конечно, для случайных чисел.</p>
+            
+            <div class="note">
+                <p>📦 <strong>Чтобы использовать модуль, его нужно сначала импортировать:</strong></p>
+                <code>import random</code>
+                <p>Эта команда подключает все функции модуля random, и теперь мы можем ими пользоваться.</p>
+            </div>
+
+            <h4>Основные функции модуля random</h4>
+
+            <h5>1. Случайные числа</h5>
+            <div class="code-block">
+                <pre>
+import random
+
+# randint(a, b) - случайное целое число от a до b (включительно!)
+number = random.randint(1, 10)
+print(f"Случайное число от 1 до 10: {number}")
+
+# randrange(start, stop, step) - случайное число из диапазона
+print(random.randrange(10))      # от 0 до 9
+print(random.randrange(1, 10))   # от 1 до 9
+print(random.randrange(0, 10, 2)) # случайное четное от 0 до 8
+
+# random() - случайное дробное число от 0 до 1 (0 включительно, 1 не включено)
+r = random.random()
+print(f"Случайное дробное: {r:.4f}")  # например: 0.5738
+
+# uniform(a, b) - случайное дробное число от a до b
+temp = random.uniform(36.0, 37.5)
+print(f"Случайная температура: {temp:.1f}°C")
+                </pre>
+            </div>
+
+            <h5>2. Работа с последовательностями</h5>
+            <div class="code-block">
+                <pre>
+import random
+
+fruits = ["яблоко", "банан", "апельсин", "груша", "киви"]
+
+# choice() - выбирает один случайный элемент
+random_fruit = random.choice(fruits)
+print(f"Случайный фрукт: {random_fruit}")
+
+# choices() - выбирает несколько элементов (с возвратом)
+# можно указать количество и веса
+snacks = random.choices(fruits, k=3)  # выбрать 3 фрукта (могут повторяться)
+print(f"Случайный набор: {snacks}")
+
+# sample() - выбирает несколько уникальных элементов (без повторений)
+unique = random.sample(fruits, 3)  # выбрать 3 разных фрукта
+print(f"3 разных фрукта: {unique}")
+
+# shuffle() - перемешивает список (изменяет исходный!)
+print(f"До перемешивания: {fruits}")
+random.shuffle(fruits)
+print(f"После перемешивания: {fruits}")
+                </pre>
+            </div>
+
+            <div class="note">
+                <p>⚠️ <strong>Важно!</strong> Функция shuffle() изменяет исходный список, а не создает новый. Если нужно сохранить оригинал, сделай копию:</p>
+                <code>
+                    original = [1, 2, 3, 4, 5]<br>
+                    shuffled = original.copy()<br>
+                    random.shuffle(shuffled)
+                </code>
+            </div>
+
+            <h5>3. Управление случайностью</h5>
+            <div class="code-block">
+                <pre>
+import random
+
+# seed() - устанавливает начальное значение для генератора случайных чисел
+# Это полезно для отладки: при одинаковом seed будут одинаковые "случайные" числа
+random.seed(42)
+print(random.randint(1, 100))  # всегда будет 82
+print(random.randint(1, 100))  # всегда будет 15
+
+# Без seed каждый запуск дает разные числа
+
+# getrandbits(k) - генерирует число с k случайными битами
+bits = random.getrandbits(8)  # число от 0 до 255
+print(f"8-битное число: {bits}")
+                </pre>
+            </div>
+
+            <h4>Практические примеры использования random</h4>
+
+            <h5>Пример 1: Бросание кубика</h5>
+            <div class="code-block">
+                <pre>
+import random
+
+def roll_dice(sides=6):
+    """Бросает кубик с заданным количеством граней"""
+    return random.randint(1, sides)
+
+# Бросаем два кубика
+dice1 = roll_dice()
+dice2 = roll_dice()
+print(f"Выпало: {dice1} и {dice2}, сумма: {dice1 + dice2}")
+
+# Бросаем 20-гранный кубик (для D&D)
+d20 = roll_dice(20)
+print(f"Атака: {d20}" + (" КРИТИЧЕСКИЙ УДАР!" if d20 == 20 else ""))
+                </pre>
+            </div>
+
+            <h5>Пример 2: Угадай число (игра)</h5>
+            <div class="code-block">
+                <pre>
+import random
+
+secret = random.randint(1, 100)
+attempts = 0
+max_attempts = 7
+
+print("Я загадал число от 1 до 100. У тебя 7 попыток!")
+
+while attempts < max_attempts:
+    guess = int(input("Твой вариант: "))
+    attempts += 1
+    
+    if guess == secret:
+        print(f"Поздравляю! Ты угадал за {attempts} попыток!")
+        break
+    elif guess < secret:
+        print("Больше!")
+    else:
+        print("Меньше!")
+else:
+    print(f"Попытки кончились. Я загадал {secret}")
+                </pre>
+            </div>
+
+            <h5>Пример 3: Генератор паролей</h5>
+            <div class="code-block">
+                <pre>
+import random
+import string
+
+def generate_password(length=8):
+    """Генерирует случайный пароль заданной длины"""
+    # string.ascii_letters - все буквы (a-z, A-Z)
+    # string.digits - все цифры (0-9)
+    # string.punctuation - все знаки препинания
+    chars = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(random.choice(chars) for _ in range(length))
+    return password
+
+print(f"Простой пароль: {generate_password(6)}")
+print(f"Сложный пароль: {generate_password(12)}")
+print(f"Супер-пароль: {generate_password(16)}")
+                </pre>
+            </div>
+
+            <h5>Пример 4: Перемешивание и раздача карт</h5>
+            <div class="code-block">
+                <pre>
+import random
+
+# Создаем колоду карт
+suits = ["♥", "♦", "♣", "♠"]
+ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "В", "Д", "К", "Т"]
+deck = [f"{rank}{suit}" for suit in suits for rank in ranks]
+
+print(f"Всего карт: {len(deck)}")
+
+# Перемешиваем
+random.shuffle(deck)
+print(f"Первая карта: {deck[0]}")
+
+# Раздаем по 5 карт трем игрокам
+for player in range(1, 4):
+    hand = deck[:5]  # берем первые 5 карт
+    deck = deck[5:]  # убираем их из колоды
+    print(f"Игрок {player}: {', '.join(hand)}")
+                </pre>
+            </div>
+
+            <h5>Пример 5: Случайное событие с вероятностью</h5>
+            <div class="code-block">
+                <pre>
+import random
+
+def event_with_probability(probability):
+    """
+    Возвращает True с заданной вероятностью (от 0 до 1)
+    Например: event_with_probability(0.3) вернет True в 30% случаев
+    """
+    return random.random() < probability
+
+# Симуляция выпадения легендарного предмета (1% шанс)
+if event_with_probability(0.01):
+    print("🔥 ТЫ ПОЛУЧИЛ ЛЕГЕНДАРКУ!")
+else:
+    print("Обычный предмет...")
+
+# Симуляция погоды (40% дождь)
+if event_with_probability(0.4):
+    print("Идет дождь, возьми зонт!")
+else:
+    print("Дождя нет")
+                </pre>
+            </div>
+
+            <h4>Другие полезные функции</h4>
+            <ul>
+                <li><strong>random.gauss(mu, sigma)</strong> — нормальное распределение (для реалистичных случайных величин)</li>
+                <li><strong>random.triangular(low, high, mode)</strong> — треугольное распределение</li>
+                <li><strong>random.betavariate(alpha, beta)</strong> — бета-распределение</li>
+            </ul>
+
+            <div class="note">
+                <p>🎲 <strong>Для игр:</strong> random подходит для большинства задач, но для криптографии (где случайность должна быть непредсказуемой) используй модуль <strong>secrets</strong>.</p>
+            </div>
+
+            <h4>Типичные ошибки</h4>
+            <ul>
+                <li><strong>Забыл импортировать random</strong> — получишь NameError: name 'random' is not defined</li>
+                <li><strong>Путаница с randint и randrange</strong> — randint включает оба конца, randrange включает начало, но не включает конец</li>
+                <li><strong>Изменение списка при shuffle</strong> — помни, что shuffle изменяет исходный список</li>
+                <li><strong>Ожидание разных чисел при одинаковом seed</strong> — seed нужен для воспроизводимости</li>
+                <li><strong>Использование random для паролей</strong> — для настоящих паролей используй secrets</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>
+# Частая ошибка с randrange
+print(random.randrange(1, 10))  # числа от 1 до 9 (10 не включено)
+print(random.randint(1, 10))    # числа от 1 до 10 (10 включено)
+
+# Правильное использование для четных чисел
+even = random.randrange(0, 10, 2)  # 0,2,4,6,8
+                </pre>
+            </div>
+        </div>
+    `,
+    practice: `
+        <div class="practice-task">
+            <h4>🧪 Практическое задание: "Магический шар и игры со случайностью"</h4>
+            <p>Создай набор программ, использующих модуль random для разных задач.</p>
+            
+            <h4>Базовый уровень (обязательно):</h4>
+            <ol>
+                <li>Создай программу <strong>"Магический шар"</strong> (оракул), которая:
+                    <ul>
+                        <li>Содержит список ответов: ["Да", "Нет", "Возможно", "Спроси позже", "Точно да", "Никогда", "Знаки говорят да", "Лучше не надо"]</li>
+                        <li>Запрашивает у пользователя вопрос (можно просто нажать Enter)</li>
+                        <li>С помощью random.choice() выбирает случайный ответ и выводит его в красивом формате</li>
+                        <li>Работает в цикле, пока пользователь не введет "стоп" или "выйти"</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>Средний уровень (добавь к базовому):</h4>
+            <ol start="2">
+                <li>Добавь в программу "Магический шар":
+                    <ul>
+                        <li>Приветствие и инструкцию</li>
+                        <li>Счетчик вопросов (сколько вопросов задано)</li>
+                        <li>Разные стили ответов: нормальные, капсом, с эмодзи</li>
+                        <li>Возможность добавить свой ответ в список</li>
+                    </ul>
+                </li>
+                <li>Создай игру <strong>"Камень, ножницы, бумага"</strong> против компьютера:
+                    <ul>
+                        <li>Компьютер случайно выбирает один из трех вариантов</li>
+                        <li>Игрок вводит свой вариант</li>
+                        <li>Программа определяет победителя и ведет счет</li>
+                        <li>Игра продолжается, пока игрок не введет "стоп"</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>Продвинутый уровень (для самых смелых):</h4>
+            <ol start="4">
+                <li>Создай <strong>"Генератор случайностей"</strong> с меню:
+                    <ul>
+                        <li>Случайное число в диапазоне (пользователь задает min и max)</li>
+                        <li>Случайный элемент из списка (пользователь вводит список)</li>
+                        <li>Генератор пароля (пользователь задает длину и сложность)</li>
+                        <li>Бросание кубика (выбрать количество граней)</li>
+                        <li>Перемешиватель списка (пользователь вводит элементы через запятую)</li>
+                        <li>Случайный факт (заранее подготовленный список фактов)</li>
+                        <li>Выход</li>
+                    </ul>
+                </li>
+                <li>Создай игру <strong>"Угадай число"</strong> с уровнями сложности:
+                    <ul>
+                        <li>Легкий: числа от 1 до 50, 7 попыток</li>
+                        <li>Средний: числа от 1 до 100, 5 попыток</li>
+                        <li>Сложный: числа от 1 до 200, 4 попытки</li>
+                        <li>Компьютер дает подсказки "больше/меньше"</li>
+                        <li>Ведется статистика игр (сыграно, выиграно)</li>
+                    </ul>
+                </li>
+                <li>Создай <strong>"Симулятор лотереи"</strong>:
+                    <ul>
+                        <li>Генерация случайных номеров (например, 6 из 49)</li>
+                        <li>Пользователь вводит свои номера</li>
+                        <li>Программа показывает, сколько номеров совпало</li>
+                        <li>Можно купить несколько билетов</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 1: Магический шар (базовый уровень)</strong></p>
+                <code>
+                    import random<br>
+                    <br>
+                    answers = ["Да", "Нет", "Возможно", "Спроси позже", "Точно да", "Никогда"]<br>
+                    <br>
+                    print("🔮 МАГИЧЕСКИЙ ШАР 🔮")<br>
+                    print("Задай свой вопрос (или 'стоп' для выхода)"")<br>
+                    <br>
+                    while True:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;question = input("\\nТвой вопрос: ")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if question.lower() == "стоп":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Заходи еще!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;answer = random.choice(answers)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"🎱 Шар говорит: {answer}")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 2: Камень, ножницы, бумага</strong></p>
+                <code>
+                    import random<br>
+                    <br>
+                    choices = ["камень", "ножницы", "бумага"]<br>
+                    wins = 0<br>
+                    losses = 0<br>
+                    ties = 0<br>
+                    <br>
+                    while True:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;player = input("Выбери (камень/ножницы/бумага) или 'стоп': ").lower()<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if player == "стоп":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if player not in choices:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Неверный выбор!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;computer = random.choice(choices)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"Компьютер выбрал: {computer}")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if player == computer:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Ничья!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ties += 1<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif (player == "камень" and computer == "ножницы") or \\<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(player == "ножницы" and computer == "бумага") or \\<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(player == "бумага" and computer == "камень"):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Ты выиграл!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wins += 1<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Компьютер выиграл!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;losses += 1<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"Счет: Побед {wins}, Поражений {losses}, Ничьих {ties}")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 3: Генератор паролей</strong></p>
+                <code>
+                    import random<br>
+                    import string<br>
+                    <br>
+                    def generate_password(length=8, strong=True):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if strong:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chars = string.ascii_letters + string.digits + string.punctuation<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chars = string.ascii_lowercase + string.digits<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return ''.join(random.choice(chars) for _ in range(length))<br>
+                    <br>
+                    length = int(input("Длина пароля: "))<br>
+                    strong = input("Сложный? (да/нет): ").lower() == "да"<br>
+                    password = generate_password(length, strong)<br>
+                    print(f"Твой пароль: {password}")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 4: Генератор случайностей с меню</strong></p>
+                <code>
+                    import random<br>
+                    <br>
+                    while True:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("\\n=== ГЕНЕРАТОР СЛУЧАЙНОСТЕЙ ===")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("1. Случайное число")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("2. Случайный элемент из списка")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("3. Генератор пароля")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("4. Бросить кубик")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("5. Выход")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;choice = input("Выбери: ")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if choice == "1":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min_val = int(input("Минимум: "))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max_val = int(input("Максимум: "))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Случайное число: {random.randint(min_val, max_val)}")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif choice == "2":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items = input("Введи элементы через запятую: ").split(",")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items = [item.strip() for item in items]  # убираем пробелы<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Случайный выбор: {random.choice(items)}")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif choice == "3":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# здесь код генерации пароля<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif choice == "4":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sides = int(input("Сколько граней у кубика? "))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Выпало: {random.randint(1, sides)}")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;elif choice == "5":<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("До свидания!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 5: Угадай число с уровнями сложности</strong></p>
+                <code>
+                    import random<br>
+                    <br>
+                    levels = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"легкий": {"max": 50, "attempts": 7},<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"средний": {"max": 100, "attempts": 5},<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"сложный": {"max": 200, "attempts": 4}<br>
+                    }<br>
+                    <br>
+                    print("Выбери уровень: легкий, средний, сложный")<br>
+                    level = input().lower()<br>
+                    <br>
+                    if level in levels:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;max_num = levels[level]["max"]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;attempts = levels[level]["attempts"]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;secret = random.randint(1, max_num)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"Я загадал число от 1 до {max_num}. У тебя {attempts} попыток")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;for i in range(attempts):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;guess = int(input(f"Попытка {i+1}: "))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if guess == secret:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Поздравляю! Ты угадал!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elif guess < secret:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Больше!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Меньше!")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Попытки кончились. Я загадал {secret}")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>💡 Подсказка 6: Симулятор лотереи</strong></p>
+                <code>
+                    import random<br>
+                    <br>
+                    def generate_ticket(nums=6, max_num=49):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"""Генерирует лотерейный билет с уникальными номерами"""<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return sorted(random.sample(range(1, max_num+1), nums))<br>
+                    <br>
+                    # Генерация выигрышной комбинации<br>
+                    winning = generate_ticket()<br>
+                    print(f"Выигрышная комбинация: {winning}")<br>
+                    <br>
+                    # Покупка билетов<br>
+                    tickets = int(input("Сколько билетов купить? "))<br>
+                    <br>
+                    for i in range(tickets):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;my_ticket = generate_ticket()<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;matches = len(set(my_ticket) & set(winning))  # пересечение множеств<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(f"Билет {i+1}: {my_ticket} - совпадений: {matches}")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if matches == 6:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("🎉 ДЖЕКПОТ! 🎉")
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🎯 Пример работы (Магический шар):</strong></p>
+                <code>
+                    🔮 МАГИЧЕСКИЙ ШАР 🔮<br>
+                    Задай свой вопрос (или 'стоп' для выхода)<br>
+                    <br>
+                    Твой вопрос: Я сдам экзамен?<br>
+                    🎱 Шар говорит: Точно да<br>
+                    <br>
+                    Твой вопрос: Пойти завтра гулять?<br>
+                    🎱 Шар говорит: Возможно<br>
+                    <br>
+                    Твой вопрос: стоп<br>
+                    Заходи еще!
+                </code>
+            </div>
+
+            <div class="hint-box">
+                <p><strong>🔍 Если программа не работает:</strong></p>
+                <ul>
+                    <li>Проверь, есть ли в начале программы <code>import random</code></li>
+                    <li>Не забывай, что функции random вызываются через точку: random.randint(), а не просто randint()</li>
+                    <li>randint(a, b) включает оба числа, а randrange(a, b) не включает b</li>
+                    <li>shuffle() изменяет исходный список — сделай копию, если нужно сохранить оригинал</li>
+                    <li>При работе с бесконечным циклом не забудь условие выхода (break)</li>
+                </ul>
+            </div>
+
+            <div class="note">
+                <p>🎮 <strong>Идеи для творчества:</strong></p>
+                <ul>
+                    <li>Симулятор подбрасывания монетки</li>
+                    <li>Генератор случайных имен</li>
+                    <li>Игра "21" (очко) против компьютера</li>
+                    <li>Генератор случайных рецептов</li>
+                    <li>Симулятор рулетки</li>
+                    <li>Викторина со случайными вопросами</li>
+                </ul>
+            </div>
+        </div>
+    `
+}
+        };
+
+        function openLesson(lessonNumber) {
+            const lesson = lessonsData[lessonNumber];
+            if (!lesson) return;
+            
+            const modal = document.getElementById('lessonModal');
+            const lessonBody = document.getElementById('lessonBody');
+            
+            lessonBody.innerHTML = `
+                <h2 style="color: #333; margin-bottom: 20px;">${lesson.title}</h2>
+                ${lesson.theory}
+                ${lesson.practice}
+            `;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // запрещаем прокрутку фона
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('lessonModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // возвращаем прокрутку
+        }
+
+        // Закрытие по клику вне модального окна
+        window.onclick = function(event) {
+            const modal = document.getElementById('lessonModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Добавим плавное появление карточек
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.lesson-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
+            });
+        });
+
+        // Добавим стиль для анимации
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
